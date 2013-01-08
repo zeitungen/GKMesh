@@ -107,17 +107,24 @@ public class Point
 	// division d'un Point par un float : q = p / n et retourn le point q
 	public Point dividByFloat (float n)
 	{
-		float inv = 1 / n;
-		return new Point(n * x, n * y, n * z);
+		if (n != 0)
+		{
+			float inv = 1 / n;
+			return new Point(inv * x, inv * y, inv * z);
+		}
+		return null;
 	}
 	
 	// division d'un Point par un float : p = p / n
 	public void dividByFloat2 (float n)
 	{
-		float inv = 1 / n;
-		x = x * inv;
-		y = y * inv;
-		z = z * inv;
+		if (n != 0)
+		{
+			float inv = 1 / n;
+			x = x * inv;
+			y = y * inv;
+			z = z * inv;
+		}
 	}
 	
 	@Override
