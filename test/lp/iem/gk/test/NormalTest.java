@@ -77,7 +77,21 @@ public class NormalTest
 		
 		Normal res = n4.dividByFloat(10);
 		assertEquals(res, new Normal((float)0.6,(float)0.1,(float)0.2));
+		
+		n4.dividByFLoat2(2);
+		assertEquals(n4, new Normal(3,(float)0.5,1));
 	}
+	
+	@Test
+	public void testLength()
+	{
+		Normal n3 = new Normal(4,3,0);
+		float res = n3.length();
+		
+		assertTrue(n3.lengthSquared() == 25);
+		assertTrue(res == 5);
+	}
+	
 	@AfterClass
 	public static void tearDownClass() throws Exception
 	{

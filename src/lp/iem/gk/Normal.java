@@ -6,6 +6,7 @@ public class Normal
 	private float y;
 	private float z;	
 	
+	// constructeur Normal 
 	public Normal(float x, float y, float z)
 	{
 		this.x = x;
@@ -13,6 +14,13 @@ public class Normal
 		this.z = z;
 	}
 	
+	public Normal(Vector v)
+	{
+		x = v.getX();
+		y = v.getY();
+		z = v.getZ();
+	}
+
 	// retourn l'opposé de la normal
 	public Normal opposite ()
 	{
@@ -83,6 +91,29 @@ public class Normal
 	        z *= inv;
 		}
 	}
+		
+	// return the squared length of the vector
+	public float lengthSquared()
+	{
+		return this.x * this.x + this.y * this.y + this.z * this.z;
+	}
+	
+	// return the  length of the vector
+	public float length()
+	{
+		return (float)Math.sqrt(this.lengthSquared());
+	}
+	
+	/*
+    const float& operator[]( const unsigned int i ) const 
+    {
+        return ( &x )[i];
+    }
+    
+    float &operator[]( const unsigned int i )
+    {
+        return ( &x )[i]; 
+    }*/
 	
 	@Override
 	public boolean equals(Object o)
@@ -125,7 +156,5 @@ public class Normal
 	{
 		this.z = z;
 	}
-	
-	
-	
+		
 }
