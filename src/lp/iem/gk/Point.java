@@ -137,20 +137,20 @@ public class Point
         return (this.x == p.getX() && this.y == p.getY() && this.z == p.getZ());
 	}	
 
-	// TODO : surcharge operateur [] :
-	/*
-	 const float& operator[]( const unsigned int i ) const
-    {
-        return ( &x )[i];
-    }
-    
-    float &operator[]( const unsigned int i )
-    {
-        return ( &x )[i];
-    }
-    */
-	
 
+	public float get(int index) throws Exception
+	{
+		if (index < 0)
+			throw new Exception ("index <0");
+		else if(index > 2)
+			throw new Exception ("index > 2");
+		else if(index == 0)
+			return this.x;
+		else if(index == 1)
+			return this.y;
+		else 
+			return this.z;		
+	}
 
 	public float getX()
 	{

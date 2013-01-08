@@ -104,17 +104,19 @@ public class Normal
 		return (float)Math.sqrt(this.lengthSquared());
 	}
 	
-	/*
-    const float& operator[]( const unsigned int i ) const 
-    {
-        return ( &x )[i];
-    }
-    
-    float &operator[]( const unsigned int i )
-    {
-        return ( &x )[i]; 
-    }*/
-	
+	public float get(int index) throws Exception
+	{
+		if (index < 0)
+			throw new Exception ("index <0");
+		else if(index > 2)
+			throw new Exception ("index > 2");
+		else if(index == 0)
+			return this.x;
+		else if(index == 1)
+			return this.y;
+		else 
+			return this.z;		
+	}
 	@Override
 	public boolean equals(Object o)
 	{

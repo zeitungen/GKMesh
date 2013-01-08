@@ -2,6 +2,7 @@ package lp.iem.test.test;
 
 import static org.junit.Assert.*;
 import lp.iem.gk.Color;
+import lp.iem.gk.Point;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -105,6 +106,21 @@ public class ColorTest
 		assertTrue(c1.isBlack());
 		
 		assertFalse(c2.isBlack());
+	}
+	
+	@Test
+	public void testget() throws Exception
+	{
+		Color n3 = new Color((float)4.3,15,(float)18.25);
+		float r = n3.get(0);
+		float g = n3.get(1);
+		float b = n3.get(2);
+		float a = n3.get(3);
+		
+		assertTrue(r == n3.getR());
+		assertTrue(g == n3.getG());
+		assertTrue(b == n3.getB());		
+		assertTrue(a == n3.getA());		
 	}
 	
 	@AfterClass

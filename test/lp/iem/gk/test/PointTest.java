@@ -1,6 +1,7 @@
 package lp.iem.test.test;
 
 import static org.junit.Assert.*;
+import lp.iem.gk.Normal;
 import lp.iem.gk.Point;
 import lp.iem.gk.Vector;
 import org.junit.*;
@@ -98,6 +99,19 @@ public class PointTest
 		Point p2 = new Point((float)12.5,6,(float)7.5);
 		
 		assertEquals(p1,p2);
+	}
+	
+	@Test
+	public void testget() throws Exception
+	{
+		Point n3 = new Point((float)4.3,15,(float)18.25);
+		float x = n3.get(0);
+		float y = n3.get(1);
+		float z = n3.get(2);
+		
+		assertTrue(x == n3.getX());
+		assertTrue(y == n3.getY());
+		assertTrue(z == n3.getZ());		
 	}
 	
 

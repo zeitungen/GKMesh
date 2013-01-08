@@ -92,6 +92,19 @@ public class NormalTest
 		assertTrue(res == 5);
 	}
 	
+	@Test
+	public void testget() throws Exception
+	{
+		Normal n3 = new Normal(4,3,0);
+		float x = n3.get(0);
+		float y = n3.get(1);
+		float z = n3.get(2);
+		
+		assertTrue(x == n3.getX());
+		assertTrue(y == n3.getY());
+		assertTrue(z == n3.getZ());		
+	}
+	
 	@AfterClass
 	public static void tearDownClass() throws Exception
 	{

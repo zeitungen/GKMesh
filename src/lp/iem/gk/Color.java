@@ -50,7 +50,7 @@ public class Color
 		this.a = a;
 	}
 
-	/* TODO :
+	/* TODO : implementation HDRPixel et Pixel
 	 * 
 	 *  //! constructeur, conversion depuis un HDRPixel.
     Color( const HDRPixel& pixel )
@@ -97,7 +97,7 @@ public class Color
 		return new Color(r + c.getR(), g + c.getG(), b + c.getB(), a + c.getA());
 	}
 
-	//  addition de 2 vecteurs, u= u + v.
+	//addition de 2 vecteurs, u= u + v.
 	public void additionColor2(Color c)
 	{
 		this.a += c.getA();
@@ -106,13 +106,13 @@ public class Color
 		this.b += c.getB();
 	}
 	
-	// soustraction de 2 vecteurs, w= u - v, renvoie w
+	//soustraction de 2 vecteurs, w= u - v, renvoie w
 	public Color substractionColor(Color c)
 	{
 		return new Color(r - c.getR(), g - c.getG(), b - c.getB(), a - c.getA());
 	}
 
-	// soustraction de 2 vecteurs,u= u - v
+	//soustraction de 2 vecteurs,u= u - v
 	public void substractionColor2(Color c)
 	{
 		this.a -= c.getA();
@@ -121,13 +121,13 @@ public class Color
 		this.b -= c.getB();
 	}
 	
-	// produit de 2 color, w = u * v, retourn la Color w
+	//produit de 2 color, w = u * v, retourn la Color w
 	public Color productColor(Color c)
 	{
 		return new Color(r * c.getR(), g * c.getG(), b * c.getB(), a * c.getA());
 	}
 	
-	// produit de 2 color, u = u * v
+	//produit de 2 color, u = u * v
 	public void productColor2(Color c)
 	{
 		this.a *= c.getA();
@@ -136,13 +136,13 @@ public class Color
 		this.b *= c.getB();
 	}
 
-	//! produit par un reel, w= k * u, renvoie w.
+	//produit par un reel, w= k * u, renvoie w.
 	public Color productByFloat(float f)
 	{
 		return new Color(f * r, f * g, f * b, f * a);
 	}
 	
-	//! produit par un reel, u= u * k.
+	//produit par un reel, u= u * k.
 	public void productByFloat2(float f)
 	{
         r *= f;
@@ -151,7 +151,7 @@ public class Color
         a *= f;			
 	}
 	
-	// division d'une color par un float w = u / k
+	//division d'une color par un float w = u / k
 	public Color divideByFloat(float f)
 	{
 		if (f != 0)
@@ -162,7 +162,7 @@ public class Color
 		return null;
 	}
 	
-	// division d'une color par un float u = u / k
+	//division d'une color par un float u = u / k
 	public void divideByFloat2(float f)
 	{
 		if (f != 0)
@@ -175,24 +175,25 @@ public class Color
 		}
 	}
 	
-	// negation d'un vecteur, w= -u, renvoie w.
+	//negation d'un vecteur, w= -u, renvoie w.
 	public Color opposite()
 	{
 		return new Color( -r, -g, -b, -a );
 	}
 	
-	// renvoie la quantite d'energie associe
+	//renvoie la quantite d'energie associe
 	public float power() 
     {
         return (r + g + b) / 3.f;
     }
 	
-	//! renvoie vrai la quantite d'energie est nulle
+	//renvoie vrai la quantite d'energie est nulle
 	public  Boolean isBlack( ) 
     {
         return (r + g + b) == 0.f;
     }
     
+	// compare 2 Color, true si elles sont egales, 0 sinon
 	@Override
 	public boolean equals(Object o) 
 	{
@@ -201,6 +202,22 @@ public class Color
 	    
 	    final Color p = (Color) o;
 	    return this.r == p.getR() && this.g == p.getG() && this.b == p.getB() && this.a == p.getA();
+	}
+	
+	public float get(int index) throws Exception
+	{
+		if (index < 0)
+			throw new Exception ("index <0");
+		else if(index > 3)
+			throw new Exception ("index > 3");
+		else if(index == 0)
+			return this.r;
+		else if(index == 1)
+			return this.g;
+		else if(index == 2)
+			return this.b;
+		else
+			return this.a;
 	}
 	
 	public float getR()
@@ -236,7 +253,7 @@ public class Color
 		this.a = a;
 	}
 	
-	/* TODO
+	/* TODO : surcherge operateurs []
 	 * 
 	//! renvoie une composante du vecteur.
     const float& operator[]( const unsigned int i ) const
