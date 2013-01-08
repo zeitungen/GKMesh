@@ -28,6 +28,12 @@ public class Vector {
 		this.y = n.getY();
 		this.z = n.getZ();
 	}
+		
+	public Vector(Point p, Point q){
+		this.x = q.getX() - p.getX();
+		this.y = q.getY() - p.getY();
+		this.z = q.getZ() - p.getZ();
+	}
 	
 	@Override
 	public String toString(){
@@ -39,6 +45,14 @@ public class Vector {
 	public float getY() { return y; }
 	public float getZ() { return z; }
 
+	public float get(int index) throws Exception{
+		if(index < 0) throw new Exception("index < 0");
+		else if(index > 3) throw new Exception("index > 3");	
+		else if(index == 0) return this.getX();
+		else if(index == 1) return this.getY();
+		else return this.getZ();
+	}
+	
 	public void setX(float x){ this.x = x; }
 	public void setY(float y){ this.y = y; }
 	public void setZ(float z){ this.z = z; }
@@ -136,20 +150,7 @@ public class Vector {
 	public Vector negation(){
 		return new Vector(-this.getX(), -this.getY(), -this.getZ());
 	}
-	
-	/* C++
-	//! renvoie une composante du vecteur.
-    const float& operator[]( const unsigned int i ) const
-    {
-        return ( &x )[i];
-    }
-    
-    //! renvoie une reference sur une composante du vecteur.
-    float &operator[]( const unsigned int i )
-    {
-        return ( &x )[i];
-    }
-    //*/
+
 
 	/**
 	 * calcul the squared length

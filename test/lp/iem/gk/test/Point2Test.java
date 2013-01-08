@@ -1,8 +1,8 @@
 package lp.iem.gk.test;
 
-import static org.junit.Assert.*;
 import lp.iem.gk.Point2;
 
+import static org.junit.Assert.*;
 import org.junit.*;
 
 public class Point2Test {
@@ -29,6 +29,30 @@ public class Point2Test {
     public void tearDown() {
 		point.setX(startx);
 		point.setY(starty);
+    }
+    
+    @Test
+    public void testGet(){
+    	try {
+			float x = point.get(0);
+			assertTrue(startx == x);
+		} catch (Exception e) {	fail(e.getMessage()); }
+    	
+    	try {
+    		float y = point.get(1);
+    		assertTrue(starty == y);
+    	}catch (Exception e) { fail(e.getMessage()); }
+    	
+    	try { 
+    		point.get(-1);
+    		fail("Exception don't throw");
+		} catch (Exception e) {	assertTrue(true); }
+    	
+    	try {
+			point.get(3);
+			fail("Exception don't throw");
+    	} catch (Exception e) {	assertTrue(true); }
+    	
     }
     
 	@Test

@@ -18,6 +18,19 @@ public class Point2 {
 	public float getX() { return x; }
 	public float getY() { return y; }
 	
+	/**
+	 * get x or y with an index (0 or 1)
+	 * @param index (0 or 1)
+	 * @return x or y
+	 * @throws Exception
+	 */
+	public float get(int index) throws Exception{
+		if(index < 0) throw new Exception("index < 0");
+		else if(index > 2) throw new Exception("index > 2");
+		else if(index == 0) return this.getX();
+		else return this.getY();
+	}
+	
 	public void setX(float x) { this.x = x; }
 	public void setY(float y) { this.y = y; }
 	
@@ -110,21 +123,7 @@ public class Point2 {
 	public Point2 negation(){
 		return new Point2(-this.x, -this.y);
 	}
-	
-	/* C++ code
-    //! renvoie reference sur une composante du vecteur.
-    float &operator[]( const unsigned int i )
-    {
-        return ( &x )[i];
-    }
-    
-    //! renvoie le carre de la longueur du vecteur.
-    float LengthSquared() const 
-    { 
-        return x*x + y*y; 
-    }
-    //*/
-	
+		
 	/**
 	 * return the squared length of the vector
 	 * @return

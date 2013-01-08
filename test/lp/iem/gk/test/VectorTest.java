@@ -3,6 +3,7 @@ package lp.iem.gk.test;
 import lp.iem.gk.Vector;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
 public class VectorTest {
@@ -30,6 +31,36 @@ public class VectorTest {
 	public void tearDown(){
 		vector.setPosition(startx,starty, startz);
 	}
+	
+	
+    @Test
+    public void testGet(){
+    	try {
+			float x = vector.get(0);
+			assertTrue(startx == x);
+		} catch (Exception e) {	fail(e.getMessage()); }
+    	
+    	try {
+    		float y = vector.get(1);
+    		assertTrue(starty == y);
+    	}catch (Exception e) { fail(e.getMessage()); }
+    	
+    	try {
+    		float z = vector.get(2);
+    		assertTrue(startz == z);
+    	}catch (Exception e) { fail(e.getMessage()); }
+    	
+    	try { 
+    		vector.get(-1);
+    		fail("Exception don't throw");
+		} catch (Exception e) {	assertTrue(true); }
+    	
+    	try {
+    		vector.get(4);
+			fail("Exception don't throw");
+    	} catch (Exception e) {	assertTrue(true); }
+    	
+    }
 	
 	@Test
 	public void testAddition(){
