@@ -21,6 +21,11 @@ public class Point2 {
 	public void setX(float x) { this.x = x; }
 	public void setY(float y) { this.y = y; }
 	
+	public void setPosition(float x, float y){
+		this.setX(x);
+		this.setY(y);
+	}
+	
 	/**
 	 * addition of two vectors, w = u + p
 	 * @param p
@@ -85,6 +90,55 @@ public class Point2 {
 		if(f == 0) throw new Exception("Division by zero");
 		float inv = 1.f / f;
 		return this.productPoint2(inv);
+	}
+	
+	/**
+	 * division by a real, u = u / f
+	 * @param f
+	 * @throws Exception
+	 */
+	public void divide(float f) throws Exception{
+		if(f == 0) throw new Exception("Division by zero");
+		float inv = 1.f / f;
+		this.product(inv);
+	}
+	
+	/**
+	 * negation of a vector, w = -u
+	 * @return w
+	 */
+	public Point2 negation(){
+		return new Point2(-this.x, -this.y);
+	}
+	
+	/* C++ code
+    //! renvoie reference sur une composante du vecteur.
+    float &operator[]( const unsigned int i )
+    {
+        return ( &x )[i];
+    }
+    
+    //! renvoie le carre de la longueur du vecteur.
+    float LengthSquared() const 
+    { 
+        return x*x + y*y; 
+    }
+    //*/
+	
+	/**
+	 * return the squared length of the vector
+	 * @return
+	 */
+	public float lengthSquared(){
+		return this.x * this.x + this.y * this.y;
+	}
+	
+	/**
+	 * return the length of a vector
+	 * @return
+	 */
+	public float length(){
+		return (float)Math.sqrt(this.lengthSquared());
 	}
 	
 	@Override

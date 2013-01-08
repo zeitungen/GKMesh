@@ -76,4 +76,41 @@ public class Point2Test {
 		Point2 expected = new Point2(4.f, 6.f);
 		assertEquals(expected, point);
 	}
+	
+	@Test
+	public void testDivision(){
+		Point2 actual = null;
+		try { actual = point.division(2.f); } catch (Exception e) { }
+		Point2 expected = new Point2(1.f, 1.5f);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testDivide(){
+		try { point.divide(2.f); } catch (Exception e) {	}
+		Point2 expected = new Point2(1.f, 1.5f);
+		assertEquals(expected, point);
+	}
+	
+	@Test
+	public void testNegation(){
+		Point2 actual = point.negation();
+		Point2 expected = new Point2(-2.f, -3.f);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testLengthSquared(){
+		float actual = point.lengthSquared();
+		float expected = 13.f;
+		assertTrue(actual == expected);
+	}
+	
+	@Test
+	public void testLength(){
+		point.setPosition(0.f, 2.f);
+		float actual = point.length();
+		float expected = 2.f;
+		assertTrue(actual == expected);
+	}
 }
