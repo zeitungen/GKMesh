@@ -105,6 +105,46 @@ public class Point
 	}
 	
 	// division d'un Point par un float : q = p / n et retourn le point q
+	public Point dividByFloat (float n)
+	{
+		float inv = 1 / n;
+		return new Point(n * x, n * y, n * z);
+	}
+	
+	// division d'un Point par un float : p = p / n
+	public void dividByFloat2 (float n)
+	{
+		float inv = 1 / n;
+		x = x * inv;
+		y = y * inv;
+		z = z * inv;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        
+        final Point p = (Point) o;
+        return (this.x == p.getX() && this.y == p.getY() && this.z == p.getZ());
+	}	
+
+	// TODO : surcharge operateur [] :
+	/*
+	 const float& operator[]( const unsigned int i ) const
+    {
+        return ( &x )[i];
+    }
+    
+    float &operator[]( const unsigned int i )
+    {
+        return ( &x )[i];
+    }
+    */
+	
+
+
 	public float getX()
 	{
 		return x;

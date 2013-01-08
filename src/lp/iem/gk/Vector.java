@@ -20,7 +20,7 @@ public class Vector
 		this.y = y;
 		this.z = z;
 	}
-	
+		 
 	@Override
 	public String toString()
 	{
