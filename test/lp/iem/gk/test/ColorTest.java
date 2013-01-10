@@ -2,7 +2,8 @@ package lp.iem.test.test;
 
 import static org.junit.Assert.*;
 import lp.iem.gk.Color;
-import lp.iem.gk.Point;
+import lp.iem.gk.HdrPixel;
+import lp.iem.gk.Pixel;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -121,6 +122,30 @@ public class ColorTest
 		assertTrue(g == n3.getG());
 		assertTrue(b == n3.getB());		
 		assertTrue(a == n3.getA());		
+	}
+	
+	@Test
+	public void testHDRPix()
+	{
+		HdrPixel pix = new HdrPixel(10,15,42,36);
+		Color c1 = new Color(pix);
+		
+		assertEquals(new Color(10,15,42,36), c1);
+		
+		HdrPixel res = c1.hdrPixel();
+		assertEquals(new HdrPixel(10,15,42,36), res);
+	}
+	
+	@Test
+	public void testPixel()
+	{
+		Pixel pix = new Pixel(255,255,255,255);
+		Color c1 = new Color(pix);
+		
+		assertEquals(new Color(1,1,1,1), c1);
+		
+		Pixel res = c1.pixel();
+		assertEquals(new Pixel(255,255,255,255), res);
 	}
 	
 	@AfterClass

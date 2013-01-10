@@ -49,41 +49,38 @@ public class Color
 		
 		this.a = a;
 	}
+	
+	//! constructeur, conversion depuis un HDRPixel.
+	public Color(HdrPixel p)
+	{
+		r = p.getR();
+		g = p.getG();
+		b = p.getB();
+		a = p.getA();
+	}
+	
+	//! constructeur, conversion depuis un Pixel.
+	public Color (Pixel p)
+	{
+		r = (float) p.getR() / 255.f;
+		g = (float) p.getG() / 255.f;
+		b = (float) p.getB() / 255.f;
+		a = (float) p.getA() / 255.f;
+	}
+	
+	public Pixel pixel()
+	{
+		return new Pixel(
+				Geometry.clamp(r * 255.f, 0.f, 255.f),
+				Geometry.clamp(g * 255.f, 0.f, 255.f),
+				Geometry.clamp(b * 255.f, 0.f, 255.f),
+				Geometry.clamp(a * 255.f, 0.f, 255.f));
+	}
 
-	/* TODO : implementation HDRPixel et Pixel
-	 * 
-	 *  //! constructeur, conversion depuis un HDRPixel.
-    Color( const HDRPixel& pixel )
-        :
-        r(pixel.r),
-        g(pixel.g),
-        b(pixel.b),
-        a(pixel.a)
-    {}
-    
-    //! constructeur, conversion depuis un Pixel.
-    Color( const Pixel& pixel )
-        :
-        r((float) pixel.r / 255.f),
-        g((float) pixel.g / 255.f),
-        b((float) pixel.b / 255.f),
-        a((float) pixel.a / 255.f)
-    {}
-
-    operator Pixel( ) const
+    public HdrPixel  hdrPixel( )
     {
-        return Pixel(
-            Clamp(r * 255.f, 0.f, 255.f), 
-            Clamp(g * 255.f, 0.f, 255.f),
-            Clamp(b * 255.f, 0.f, 255.f),
-            Clamp(a * 255.f, 0.f, 255.f));
+        return new HdrPixel(r, g, b, a);
     }
-    
-    operator HDRPixel( ) const
-    {
-        return HDRPixel(r, g, b, a);
-    }
-	 */
 	
 	// affiche une couleur
 	public String toString()
@@ -252,21 +249,5 @@ public class Color
 	{
 		this.a = a;
 	}
-	
-	/* TODO : surcherge operateurs []
-	 * 
-	//! renvoie une composante du vecteur.
-    const float& operator[]( const unsigned int i ) const
-    {
-        return ( &r )[i];
-    }
-    
-    //! renvoie une reference sur une composante du vecteur.
-    float &operator[]( const unsigned int i )
-    {
-        return ( &r )[i];
-    }
-	 * 
-	 */
-	
+		
 }
