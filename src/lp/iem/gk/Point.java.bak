@@ -79,9 +79,9 @@ public class Point
 	 //! addition de 2 points p= p + q.
 	public void additionPoint(Point p)
 	{
-		x += p.getX();
-		y += p.getY();
-		z += p.getZ();		
+		x = p.getX();
+		y = p.getY();
+		z = p.getZ();		
 	}
 	
 	//! addition de 2 points, q= p + v, renvoie le point q.

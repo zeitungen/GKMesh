@@ -19,7 +19,11 @@ public class SamplerTest
 	public void testUniformFloat()
 	{
 		float rand = sample.uniformFloat();
-		float rand2 = sample.uniformInt(5);		
+		float rand2 = sample.uniformInt(5);
+		
+		System.out.println("rand : "+rand);
+		System.out.println("rand2: " + rand2);
+		
 		assertTrue(0 <= rand && rand <=1);
 		assertTrue(0 <= rand2 && rand2 <=5);
 	}

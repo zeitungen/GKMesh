@@ -33,7 +33,7 @@ public class PointTest
 		System.out.println("P4 : "+point4.toString());
 	}
 	*/
-/*	@Test
+	@Test
 	public void testAdditionPointVector()
 	{
 		System.out.println("\ntest fonction additionVector:");
@@ -75,11 +75,12 @@ public class PointTest
 		System.out.println("\nSubstraction point - vecteur avec affectation dans point test2-v ");
 		test2.substraction(v);
 		System.out.println(test2.toString());
-	}*/
+	}
 	
 	@Test
 	public void testEqual()
 	{
+		System.out.println("\ntest fonction equals :");
 		Point p1 = new Point(10,45,(float) 12.3);
 		Point p2 = new Point(10,45,(float) 12.3);
 		

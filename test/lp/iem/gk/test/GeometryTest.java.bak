@@ -86,9 +86,6 @@ public class GeometryTest
 		Vector res = Geometry.normalize(v1);
 		
 		assertEquals("test Normalize", 1.f, res.length(), precis);
-		//assertTrue(res.length() == 1.f);
-		System.out.println("res : "+res.toString());
-		System.out.println("res length : " + res.length());
 	}
 	
 	@Test
@@ -299,6 +296,7 @@ public class GeometryTest
 		Vector v = new Vector(3,4,0);
 		float res = Geometry.sphericalTheta(v);
 		res = Geometry.radians(res);
+		System.out.println(res);
 		assertEquals(0, res, 0.1);
 		
 	}
@@ -307,6 +305,7 @@ public class GeometryTest
 	public void testSphericalPhi()
 	{
 		Vector v = new Vector(2,6,8);
+		System.out.println(" testSphericalPhi : "+Geometry.sphericalPhi(v));
 		assertEquals( (float)1.24, Geometry.sphericalPhi(v), 0.1);
 	}
 }
