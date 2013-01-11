@@ -1,4 +1,4 @@
-package lp.iem.test.test;
+package lp.iem.gk.test;
 
 import static org.junit.Assert.*;
 import lp.iem.gk.Normal;

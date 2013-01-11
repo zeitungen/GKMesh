@@ -2,8 +2,6 @@ package lp.iem.gk;
 
 public class BBox {
 	
-	public final static float HUGE_VAL = 999999;
-	
 	private Point min;
 	private Point max;
 	
@@ -64,8 +62,8 @@ public class BBox {
 	 * reinit the ends
 	 */
 	public void clear(){
-		this.min = new Point(-HUGE_VAL, -HUGE_VAL, -HUGE_VAL);
-		this.max = new Point(HUGE_VAL, HUGE_VAL, HUGE_VAL);
+		this.min = new Point(-Geometry.HUGE_VAL, -Geometry.HUGE_VAL, -Geometry.HUGE_VAL);
+		this.max = new Point(Geometry.HUGE_VAL, Geometry.HUGE_VAL, Geometry.HUGE_VAL);
 	}
 	
 	@Override

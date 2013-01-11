@@ -2,6 +2,7 @@ package lp.iem.gk.test;
 
 import static org.junit.Assert.*;
 import lp.iem.gk.BBox;
+import lp.iem.gk.Geometry;
 import lp.iem.gk.Point;
 import lp.iem.gk.Vector;
 
@@ -43,12 +44,12 @@ public class BBoxTest {
 	@Test
 	public void testConstructor() {
 		sensation = new BBox();
-		assertTrue(sensation.getMax().getX() == BBox.HUGE_VAL);
-		assertTrue(sensation.getMax().getY() == BBox.HUGE_VAL);
-		assertTrue(sensation.getMax().getZ() == BBox.HUGE_VAL);
-		assertTrue(sensation.getMin().getX() == -BBox.HUGE_VAL);
-		assertTrue(sensation.getMin().getY() == -BBox.HUGE_VAL);
-		assertTrue(sensation.getMin().getZ() == -BBox.HUGE_VAL);
+		assertTrue(sensation.getMax().getX() == Geometry.HUGE_VAL);
+		assertTrue(sensation.getMax().getY() == Geometry.HUGE_VAL);
+		assertTrue(sensation.getMax().getZ() == Geometry.HUGE_VAL);
+		assertTrue(sensation.getMin().getX() == -Geometry.HUGE_VAL);
+		assertTrue(sensation.getMin().getY() == -Geometry.HUGE_VAL);
+		assertTrue(sensation.getMin().getZ() == -Geometry.HUGE_VAL);
 		
 		sensation = new BBox(p1);
 		assertTrue(sensation.getMax().getX() == -10.f);

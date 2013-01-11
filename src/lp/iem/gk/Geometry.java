@@ -2,6 +2,10 @@ package lp.iem.gk;
 
 public class Geometry
 {
+	public final static float HUGE_VAL = 999999;
+	public final static float RAY_EPSILON = 0.0001f;
+	public final static float EPSILON = 0.00001f;
+	
 	//! produit vectoriel de 2 vecteurs.
 	public static Vector cross( Vector v1, Vector v2 )
 	{
