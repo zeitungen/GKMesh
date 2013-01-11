@@ -107,7 +107,6 @@ public class Vector {
 	 * @return w
 	 */
 	public Vector productVector(float f){
-		
 		return new Vector(this.x * f, this.y * f, this.z * f);
 	}
 	
@@ -129,10 +128,8 @@ public class Vector {
 	 */
 	public Vector division(float f) throws Exception{
 		if(f == 0) throw new Exception("Divid by zero");
-		//float inv = 1.f / f;
-		double inv = 1.f / f;
-		
-		return this.productVector((float)inv);
+		float inv = 1.f / f;
+		return this.productVector(inv);
 	}
 	
 	/**
@@ -150,30 +147,20 @@ public class Vector {
 	 * negation of a vector, w = - u
 	 * @return w
 	 */
-	public Vector negation(){
-		return new Vector(-this.getX(), -this.getY(), -this.getZ());
-	}
+	public Vector negation(){ return new Vector(-this.getX(), -this.getY(), -this.getZ()); }
 
 
 	/**
 	 * calcul the squared length
 	 * @return the squared length
 	 */
-	public float lengthSquared(){
-		double res = this.x * this.x + this.y * this.y + this.z * this.z;
-		return (float)res;
-		
-		//return this.x * this.x + this.y * this.y + this.z * this.z;
-	}
+	public float lengthSquared(){ return this.x * this.x + this.y * this.y + this.z * this.z; }
 	
 	/**
 	 * calcul the vector length
 	 * @return the length
 	 */
-	public float length(){
-		double length = Math.sqrt(this.lengthSquared());
-		return (float) length;
-	}
+	public float length(){ return (float)Math.sqrt(this.lengthSquared()); }
 	
 	@Override
 	public boolean equals(Object o) {

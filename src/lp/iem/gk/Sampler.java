@@ -1,7 +1,6 @@
 package lp.iem.gk;
 import java.util.Random;
 
-
 public class Sampler
 {
 	private  Random rand;

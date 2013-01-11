@@ -38,7 +38,6 @@ public class NormalTest
 		assertEquals(res, n3);
 		
 		n1.additionNormal2(n2);
-		//System.out.println("n1 : "+n1.toString());
 		assertEquals(n1, n3);
 	}
 	
