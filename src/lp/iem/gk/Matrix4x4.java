@@ -46,6 +46,11 @@ public class Matrix4x4 {
 		return this.m[x][y];
 	}
 	
+	public void set(int x, int y, float val) throws Exception{
+		if(x < 0 || x > 3 || y < 0 || y > 3) throw new Exception("{x,y}={" + x + "," + y + "} not in the matrix");
+		this.m[x][y] = val;
+	}
+	
 	/**
 	 * 
 	 * @return the transposed matrix

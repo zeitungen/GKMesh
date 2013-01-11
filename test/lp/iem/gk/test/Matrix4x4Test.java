@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class Matrix4x4Test {
 
-	static final float PRECISION = 0.001f;
+	static final float PRECISION = 0.0001f;
 	
 	static Matrix4x4 neo;
 	
@@ -231,11 +231,11 @@ public class Matrix4x4Test {
 		try {
 			Matrix4x4 m = a.getInverse();
 			assertEquals(m.get(0,0), .44f, PRECISION); 		assertEquals(m.get(0,1), .320f, PRECISION); 	assertEquals(m.get(0,2), -.24f, PRECISION);
-			assertEquals(m.get(0,3), -.28f, PRECISION);		assertEquals(m.get(1,0), .229f, PRECISION); 	assertEquals(m.get(1,1), -.034f, PRECISION); 	
-			assertEquals(m.get(1,2), -.085f, PRECISION); 	assertEquals(m.get(1,3), .054f, PRECISION); 	assertEquals(m.get(2,0), .017f, PRECISION); 	
-			assertEquals(m.get(2,1), -.03f, PRECISION); 	assertEquals(m.get(2,2), .066f, PRECISION); 	assertEquals(m.get(2,3), .002f, PRECISION);
-			assertEquals(m.get(3,0), -.226f, PRECISION);	assertEquals(m.get(3,1), -.037f, PRECISION); 	assertEquals(m.get(3,2), .098f, PRECISION); 
-			assertEquals(m.get(3,3), .107f, PRECISION);
+			assertEquals(m.get(0,3), -.28f, PRECISION);		assertEquals(m.get(1,0), .22880f, PRECISION); 	assertEquals(m.get(1,1), -.03360f, PRECISION); 	
+			assertEquals(m.get(1,2), -.08480f, PRECISION); 	assertEquals(m.get(1,3), .0544f, PRECISION); 	assertEquals(m.get(2,0), .01653f, PRECISION); 	
+			assertEquals(m.get(2,1), -.03040f, PRECISION); 	assertEquals(m.get(2,2), .06613f, PRECISION); 	assertEquals(m.get(2,3), .00160f, PRECISION);
+			assertEquals(m.get(3,0), -.22560f, PRECISION);	assertEquals(m.get(3,1), -.0368f, PRECISION); 	assertEquals(m.get(3,2), .0976f, PRECISION); 
+			assertEquals(m.get(3,3), .1072f, PRECISION);
 		} catch (Exception e) { fail("Exception throw"); }
 		
 		a = new Matrix4x4(0.f,1.f,2.f,3.f,   4.f,5.f,6.f,7.f,   8.f,9.f,10.f,11.f,   12.f,13.f,14.f,15.f);
@@ -244,5 +244,16 @@ public class Matrix4x4Test {
 			System.out.println(a);
 			fail("Exception don't throw");
 		} catch (Exception e) { assertTrue(true);  }
+	}
+
+	@Test
+	public void testEquals(){
+		Matrix4x4 m1 = new Matrix4x4();
+		Matrix4x4 m2 = new Matrix4x4();
+		assertTrue(m1.equals(m2));
+		
+		Matrix4x4 m3 = new Matrix4x4();
+		try { m3.set(0, 0, 0.f); } catch (Exception e) { }
+		assertFalse(m1.equals(m3));
 	}
 }

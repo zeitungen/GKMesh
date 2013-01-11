@@ -30,8 +30,8 @@ public class Transform {
 	 * reinit the transform
 	 */
 	public void identity(){ 		
-		this.m = null;
-		this.minv = null;
+		this.m = new Matrix4x4();
+		this.minv = new Matrix4x4();
 	}
 	
 	public Matrix4x4 getGLTransposeMatrix(){ return this.m;	}
@@ -43,15 +43,15 @@ public class Transform {
 	public Transform getInverse(){ return new Transform(this.minv, this.m); }
 	
 	public Point transform(Point p) throws Exception{ return Matrix4x4.transform(this.m, p); }
-	public Vector transform(Vector v) throws Exception{ return Matrix4x4.transform(this.m, v); }
-	public Normal transform(Normal n) throws Exception{ return Matrix4x4.transform(this.m, n); }
-	public BBox transform(BBox b) throws Exception{ return Matrix4x4.transform(this.m, b); }
+	public Vector transform(Vector v){ return Matrix4x4.transform(this.m, v); }
+	public Normal transform(Normal n){ return Matrix4x4.transform(this.m, n); }
+	public BBox transform(BBox b){ return Matrix4x4.transform(this.m, b); }
 	public Ray transform(Ray r) throws Exception{ return new Ray(this.transform(r.getOrigin()), this.transform(r.getDirection())); }
 	
 	public Point inverse(Point p) throws Exception{ return Matrix4x4.transform(this.minv, p); }
-	public Vector inverse(Vector v) throws Exception{ return Matrix4x4.transform(this.minv, v); }
-	public Normal inverse(Normal n) throws Exception{ return Matrix4x4.transform(this.minv, n); }
-	public BBox inverse(BBox b) throws Exception{ return Matrix4x4.transform(this.minv, b); }
+	public Vector inverse(Vector v){ return Matrix4x4.transform(this.minv, v); }
+	public Normal inverse(Normal n){ return Matrix4x4.transform(this.minv, n); }
+	public BBox inverse(BBox b){ return Matrix4x4.transform(this.minv, b); }
 	public Ray inverse(Ray r) throws Exception{ return new Ray(this.inverse(r.getOrigin()), this.inverse(r.getDirection())); }
 	
 	public static Transform translate(Vector delta){
@@ -82,7 +82,7 @@ public class Transform {
 	
 	public static Transform rotateX(float angle){
 		float sint = (float) Math.sin(Geometry.radians(angle));
-		float cost = (float) Math.sin(Geometry.radians(angle));
+		float cost = (float) Math.cos(Geometry.radians(angle));
 		Matrix4x4 m = new Matrix4x4(1.f, 0.f,  0.f,   0.f,
 									0.f, cost, -sint, 0.f,
 									0.f, sint, cost,  0.f,
@@ -92,7 +92,7 @@ public class Transform {
 
 	public static Transform rotateY(float angle){
 		float sint = (float) Math.sin(Geometry.radians(angle));
-		float cost = (float) Math.sin(Geometry.radians(angle));
+		float cost = (float) Math.cos(Geometry.radians(angle));
 		Matrix4x4 m = new Matrix4x4(cost,  0.f,  sint, 0.f,
 									0.f,   1.f,  0.f,  0.f,
 									-sint, 0.f,  cost, 0.f,
@@ -113,7 +113,7 @@ public class Transform {
 	public static Transform rotate(float angle, Vector v) throws Exception{
 		Vector a = Geometry.normalize(v);
 		float s = (float) Math.sin(Geometry.radians(angle));
-		float c = (float) Math.sin(Geometry.radians(angle));
+		float c = (float) Math.cos(Geometry.radians(angle));
 		float[][] m = new float[4][4];
 		
 		m[0][0] = a.getX() * a.getX() + (1.f - a.getX() * a.getX()) * c;
@@ -198,7 +198,7 @@ public class Transform {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Transform Orthographic( float left, float right, float bottom, float top, float znear, float zfar ) throws Exception{
+	public static Transform orthographic( float left, float right, float bottom, float top, float znear, float zfar ) throws Exception{
 	    // opengl version
 	    Matrix4x4 ortho = new Matrix4x4(2.f / (right - left), 	0.f                 , 	0.f                  , 	-(right + left) / (right - left),
 	    								0.f,					2.f / (top - bottom), 	0.f                  , 	-(top + bottom) / (top - bottom),
@@ -226,12 +226,21 @@ public class Transform {
 		return new Transform(persp);
 	}
 
-	public static Transform Viewport(float width, float height) throws Exception{
+	public static Transform viewport(float width, float height) throws Exception{
 	    float w = width / 2.f;
 	    float h = height / 2.f;
 	    
 	    Matrix4x4 viewport = new Matrix4x4(w, 0.f, 0.f, w,    0.f, h, 0.f, h,    0.f, 0.f, .5f, .5f,     0.f, 0.f, 0.f, 1.f);
 	    
 	    return new Transform(viewport);
+	}
+
+	@Override
+	public boolean equals(Object o){
+		if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        
+        final Transform t = (Transform) o;
+        return this.m.equals(t.m) && this.minv.equals(t.minv);
 	}
 }
