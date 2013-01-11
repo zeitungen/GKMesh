@@ -2,8 +2,8 @@ package lp.iem.gk;
 
 public class Ray extends BasicRay
 {
-	Vector inv_d;       //!< 1 / direction.
-	char sign_d[] = new char[4];    //!< vrai (==1) si direction[i] < 0.
+	private Vector inv_d;       //!< 1 / direction.
+	private char sign_d[] = new char[4];    //!< vrai (==1) si direction[i] < 0.
 	
 	public Ray()
 	{
@@ -14,7 +14,7 @@ public class Ray extends BasicRay
 	public Ray( Point origin,  Vector direction) throws Exception
 	{
 		super(origin, direction, -1);
-		inv_d = new Vector(1.f / d.getX(), 1.f / d.getY(), 1.f / d.getZ());
+		inv_d = new Vector(1.f / getD().getX(), 1.f / getD().getY(), 1.f / getD().getZ());
 		sign_d[0] = (char) ((inv_d.get(0) < 0.f) ?  1 : 0);
 		sign_d[1] = (char) ((inv_d.get(1) < 0.f) ?  1 : 0);
 		sign_d[2] = (char) ((inv_d.get(2) < 0.f) ?  1 : 0);
@@ -25,7 +25,7 @@ public class Ray extends BasicRay
 	public Ray( Point origin,  Vector direction, int id) throws Exception
 	{
 		super(origin, direction, id);
-		inv_d = new Vector(1.f / d.getX(), 1.f / d.getY(), 1.f / d.getZ());
+		inv_d = new Vector(1.f / getD().getX(), 1.f / getD().getY(), 1.f / getD().getZ());
 		sign_d[0] = (char) ((inv_d.get(0) < 0.f) ?  1 : 0);
 		sign_d[1] = (char) ((inv_d.get(1) < 0.f) ?  1 : 0);
 		sign_d[2] = (char) ((inv_d.get(2) < 0.f) ?  1 : 0);
@@ -40,5 +40,25 @@ public class Ray extends BasicRay
 		else
 			return false;
     }
+
+	public Vector getInv_d()
+	{
+		return inv_d;
+	}
+
+	public void setInv_d(Vector inv_d)
+	{
+		this.inv_d = inv_d;
+	}
+
+	public char[] getSign_d()
+	{
+		return sign_d;
+	}
+
+	public void setSign_d(char[] sign_d)
+	{
+		this.sign_d = sign_d;
+	}
 
 }

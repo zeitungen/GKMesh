@@ -3,10 +3,10 @@ package lp.iem.gk;
 public class BasicRay
 {
 
-	Point o;    //!< origine.
-    float tmax;   //!< intervalle valide le long du rayon.
-    Vector d;   //!< direction.
-    int id;    //!< identifiant du rayon
+	private Point o;    //!< origine.
+	private float tmax;   //!< intervalle valide le long du rayon.
+	private Vector d;   //!< direction.
+	private int id;    //!< identifiant du rayon
     
     public BasicRay()
     {
@@ -62,4 +62,44 @@ public class BasicRay
     	d.product(t);
         return o.additionVector(d); 
     }
+
+	public Point getO()
+	{
+		return o;
+	}
+
+	public void setO(Point o)
+	{
+		this.o = o;
+	}
+
+	public float getTmax()
+	{
+		return tmax;
+	}
+
+	public void setTmax(float tmax)
+	{
+		this.tmax = tmax;
+	}
+
+	public Vector getD()
+	{
+		return d;
+	}
+
+	public void setD(Vector d)
+	{
+		this.d = d;
+	}
+
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
 }
