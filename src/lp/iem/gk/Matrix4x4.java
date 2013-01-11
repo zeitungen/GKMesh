@@ -107,11 +107,10 @@ public class Matrix4x4 {
         
         for (int i = 0; i < 4; ++i)
             for (int j = 0; j < 4; ++j)
-                r[i][j] = 
-                    m1.m[i][0] * m2.m[0][j] +
-                    m1.m[i][1] * m2.m[1][j] +
-                    m1.m[i][2] * m2.m[2][j] +
-                    m1.m[i][3] * m2.m[3][j];
+                r[i][j] = m1.m[i][0] * m2.m[0][j] +
+	                      m1.m[i][1] * m2.m[1][j] +
+	                   	  m1.m[i][2] * m2.m[2][j] +
+	                   	  m1.m[i][3] * m2.m[3][j];
         
         Matrix4x4 m = null;
         try { m = new Matrix4x4(r); } catch (Exception e) {	}
@@ -193,76 +192,65 @@ public class Matrix4x4 {
 		return null;
 	}
 
+	/**
+	 * Invert a 4 x 4 matrix using Cramer's Rule
+	 * @return
+	 * @throws Exception
+	 */
 	public Matrix4x4 getInverse() throws Exception{
-		int[] indxc = new int[4];
-		int[] indxr = new int[4];
-		int[] ipiv = {0, 0, 0, 0};
-		float[][] minv = new float[4][4];
-		for(int i=0; i < 4; i++)
-			for(int j=0; j < 4; j++)
-				minv[i][j] = this.m[i][j];
-		
-		for(int i=0; i < 4; i++){
-			int irow = -1, icol = -1;
-			float big = 0.f;
-			
-			//Chosse pivot
-			for(int j=0; j < 4; j++){
-				if(ipiv[j] != 1){
-					for(int k=0; k < 4; k++){
-						if(ipiv[k] == 0){
-							if(Math.abs(minv[j][k]) >= big){
-								big = (float)Math.abs(minv[j][k]);
-								irow = j;
-								icol = k;
-							}
-						}else if(ipiv[k] > 1) throw new Exception("Singular matrix in MatrixInvert");
-						//}else if(ipiv[k] > .9f) throw new Exception("Singular matrix in MatrixInvert");
-					}
-				}
-			}
-			
-			++ipiv[icol];
-			// Swap rows _irow_ and _icol_ for pivot
-			if(irow != icol){
-				for(int k=0; k < 4; ++k){
-					float tmp = minv[irow][k];
-					minv[irow][k] = minv[icol][k];
-					minv[icol][k] = tmp;
-				}				
-			}
-			
-			indxr[i] = irow;
-			indxc[i] = icol;
-			//if(minv[icol][icol] == 0.f)  throw new Exception("Singular matrix in MatrixInvert");
-			if(minv[icol][icol] < .1f || minv[icol][icol] > -.1f)  throw new Exception("Singular matrix in MatrixInvert");
-			
-			// Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
-			float pivinv = 1.f / minv[icol][icol];
-			minv[icol][icol] = 1.f;
-			for(int j=0; j < 4; j++) minv[icol][j] *= pivinv;
-			
-			// Subtract this row from others to zero out their columns
-			for(int j=0; j < 4; j++){
-				if(j != icol){
-					float buf = minv[j][icol];
-					minv[j][icol] = 0;
-					for(int k=0; k < 4; k++) minv[j][k] -= minv[icol][k] * buf;
-				}
-			}
-		}
-		
-		// Swap columns to reflect permutation
-	    for (int j = 3; j >= 0; j--) {
-	        if (indxr[j] != indxc[j]) {
-	            for (int k = 0; k < 4; k++){
-	                float tmp = minv[k][indxr[j]];
-	                minv[k][indxr[j]] = minv[k][indxc[j]];
-	                minv[k][indxc[j]] = tmp;
-	            }
-	        }
-	    }
-	    
-	    return new Matrix4x4(minv);
+		// adaptation from the google's algorithm in android.opengl.matrix.invertM
+        // transpose matrix
+        final float src0  = m[0][0]; final float src4  = m[0][1]; final float src8  = m[0][2]; final float src12 = m[0][3];
+        final float src1  = m[1][0]; final float src5  = m[1][1]; final float src9  = m[1][2]; final float src13 = m[1][3];
+        final float src2  = m[2][0]; final float src6  = m[2][1]; final float src10 = m[2][2]; final float src14 = m[2][3];
+        final float src3  = m[3][0]; final float src7  = m[3][1]; final float src11 = m[3][2]; final float src15 = m[3][3];
+
+        // calculate pairs for first 8 elements (cofactors)
+        final float atmp0  = src10 * src15; final float atmp1  = src11 * src14; final float atmp2  = src9  * src15; 
+        final float atmp3  = src11 * src13; final float atmp4  = src9  * src14; final float atmp5  = src10 * src13;
+        final float atmp6  = src8  * src15; final float atmp7  = src11 * src12; final float atmp8  = src8  * src14; 
+        final float atmp9  = src10 * src12; final float atmp10 = src8  * src13; final float atmp11 = src9  * src12;
+
+        // calculate first 8 elements (cofactors)
+        final float dst0  = (atmp0 * src5 + atmp3 * src6 + atmp4  * src7) - (atmp1 * src5 + atmp2 * src6 + atmp5  * src7);
+        final float dst1  = (atmp1 * src4 + atmp6 * src6 + atmp9  * src7) - (atmp0 * src4 + atmp7 * src6 + atmp8  * src7);
+        final float dst2  = (atmp2 * src4 + atmp7 * src5 + atmp10 * src7) - (atmp3 * src4 + atmp6 * src5 + atmp11 * src7);
+        final float dst3  = (atmp5 * src4 + atmp8 * src5 + atmp11 * src6) - (atmp4 * src4 + atmp9 * src5 + atmp10 * src6);
+        final float dst4  = (atmp1 * src1 + atmp2 * src2 + atmp5  * src3) - (atmp0 * src1 + atmp3 * src2 + atmp4  * src3);
+        final float dst5  = (atmp0 * src0 + atmp7 * src2 + atmp8  * src3) - (atmp1 * src0 + atmp6 * src2 + atmp9  * src3);
+        final float dst6  = (atmp3 * src0 + atmp6 * src1 + atmp11 * src3) - (atmp2 * src0 + atmp7 * src1 + atmp10 * src3);
+        final float dst7  = (atmp4 * src0 + atmp9 * src1 + atmp10 * src2) - (atmp5 * src0 + atmp8 * src1 + atmp11 * src2);
+
+        // calculate pairs for second 8 elements (cofactors)
+        final float btmp0  = src2 * src7; final float btmp1  = src3 * src6; final float btmp2  = src1 * src7;
+        final float btmp3  = src3 * src5; final float btmp4  = src1 * src6; final float btmp5  = src2 * src5;
+        final float btmp6  = src0 * src7; final float btmp7  = src3 * src4; final float btmp8  = src0 * src6;
+        final float btmp9  = src2 * src4; final float btmp10 = src0 * src5; final float btmp11 = src1 * src4;
+
+        // calculate second 8 elements (cofactors)
+        final float dst8  = (btmp0  * src13 + btmp3  * src14 + btmp4  * src15) - (btmp1  * src13 + btmp2  * src14 + btmp5  * src15);
+        final float dst9  = (btmp1  * src12 + btmp6  * src14 + btmp9  * src15) - (btmp0  * src12 + btmp7  * src14 + btmp8  * src15);
+        final float dst10 = (btmp2  * src12 + btmp7  * src13 + btmp10 * src15) - (btmp3  * src12 + btmp6  * src13 + btmp11 * src15);
+        final float dst11 = (btmp5  * src12 + btmp8  * src13 + btmp11 * src14) - (btmp4  * src12 + btmp9  * src13 + btmp10 * src14);
+        final float dst12 = (btmp2  * src10 + btmp5  * src11 + btmp1  * src9 ) - (btmp4  * src11 + btmp0  * src9  + btmp3  * src10);
+        final float dst13 = (btmp8  * src11 + btmp0  * src8  + btmp7  * src10) - (btmp6  * src10 + btmp9  * src11 + btmp1  * src8 );
+        final float dst14 = (btmp6  * src9  + btmp11 * src11 + btmp3  * src8 ) - (btmp10 * src11 + btmp2  * src8  + btmp7  * src9 );
+        final float dst15 = (btmp10 * src10 + btmp4  * src8  + btmp9  * src9 ) - (btmp8  * src9  + btmp11 * src10 + btmp5  * src8 );
+
+        // calculate determinant
+        final float det = src0 * dst0 + src1 * dst1 + src2 * dst2 + src3 * dst3;
+
+        if (det == 0.0f) throw new Exception("Determinant = 0. Matrix no inversible.");
+
+        // calculate matrix inverse
+        final float invdet = 1.0f / det;
+        float[][] mInv = new float[4][4];
+        
+        mInv[0][0] = dst0  * invdet; mInv[0][1] = dst1  * invdet; mInv[0][2] = dst2  * invdet; mInv[0][3] = dst3  * invdet;
+        mInv[1][0] = dst4  * invdet; mInv[1][1] = dst5  * invdet; mInv[1][2] = dst6  * invdet; mInv[1][3] = dst7  * invdet;
+        mInv[2][0] = dst8  * invdet; mInv[2][1] = dst9  * invdet; mInv[2][2] = dst10 * invdet; mInv[2][3] = dst11 * invdet;
+        mInv[3][0] = dst12 * invdet; mInv[3][1] = dst13 * invdet; mInv[3][2] = dst14 * invdet; mInv[3][3] = dst15 * invdet;
+
+        return new Matrix4x4(mInv);
 	}
 }
