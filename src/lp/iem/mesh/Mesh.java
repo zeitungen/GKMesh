@@ -2,7 +2,15 @@ package lp.iem.mesh;
 
 import java.util.ArrayList;
 
-import lp.iem.gk.*;
+import lp.iem.gk.BBox;
+import lp.iem.gk.Geometry;
+import lp.iem.gk.Normal;
+import lp.iem.gk.PNTriangle;
+import lp.iem.gk.Point;
+import lp.iem.gk.Point2;
+import lp.iem.gk.Triangle;
+import lp.iem.gk.Vector;
+
 import lp.iem.io.IOResource;
 
 //! representation d'un maillage triangule.

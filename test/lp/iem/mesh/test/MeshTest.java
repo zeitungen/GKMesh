@@ -1,4 +1,4 @@
-package lp.iem.gk.test.mesh;
+package lp.iem.mesh.test;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import lp.iem.gk.*;
 import lp.iem.mesh.Mesh;
 import lp.iem.mesh.MeshBuffer;
+import lp.iem.mesh.Name;
 
 import org.junit.Test;
 
