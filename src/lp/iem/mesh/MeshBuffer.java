@@ -24,7 +24,30 @@ public class MeshBuffer
 		size = _size;
 	}
 
-	
+	//! insertion d'un attribut generique.
+    public void push(Object []attribute )
+    {
+    	Object obj = attribute[0];
+    	if(obj instanceof Float)
+    	{
+	        count++;        
+	        for(int i= 0; i < size; i++)
+	            data.add((Float) attribute[i]);
+    	}
+    }
+    
+  //! insertion d'un attribut generique.
+    public void push(Object attribute )
+    {
+    	if(attribute instanceof Float)
+    	{
+	        count++;        
+	        for(int i= 0; i < size; i++)
+	            data.add((Float) attribute);
+    	}
+    }
+    
+    
  //! insertion d'un attribut generique.
     public void push(float []attribute )
     {
@@ -223,6 +246,17 @@ public class MeshBuffer
 	public void setData(ArrayList<Float> data)
 	{
 		this.data = data;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        
+        final MeshBuffer p = (MeshBuffer) o;
+        return (this.count == p.getCount() && this.data == p.getData() && this.semantic == p.getName() &&
+        		 this.size == p.getSize());
 	}
 
 }

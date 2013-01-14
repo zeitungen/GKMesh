@@ -47,5 +47,15 @@ public class SubMesh
 	{
 		this.material_id = material_id;
 	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        
+        final SubMesh p = (SubMesh) o;
+        return (this.begin == p.getBegin() && this.end == p.getEnd() && this.material_id == p.getMaterial_id());
+	}
 
 }

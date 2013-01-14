@@ -55,5 +55,15 @@ public class MeshTriangle
 			return this.c;		
 	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        
+        final MeshTriangle p = (MeshTriangle) o;
+        return (this.mesh == p.mesh && this.a == p.a && this.b == p.b && this.c == p.c);
+	}	
+
 	
 }
