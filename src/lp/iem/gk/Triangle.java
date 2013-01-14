@@ -80,13 +80,10 @@ public class Triangle
         return bbox;
     }
 
-	// TODO implementation transform :
-	
 	//! renvoie un triangle transforme par 't'.
-    public Triangle transform(/*Transform t*/ )
+    public Triangle transform(Transform t ) throws Exception
     {
-        //return Triangle( t(a), t(b), t(c) );
-    	return null;
+        return new Triangle( t.transform(a), t.transform(b), t.transform(c));
     }
 	
 
@@ -112,10 +109,44 @@ public class Triangle
     \endcode
     */
 	
-	// TODO : 
-	public Boolean Intersect(/*Ray ray,*/ float htmax,float rt, float ru, float rv ) 
+	public Boolean Intersect(Ray ray, float htmax,float rt, float ru, float rv ) 
     {
-		return false;
+		/* begin calculating determinant - also used to calculate U parameter */
+        Vector ac = new Vector (a, c);
+        Vector pvec = Geometry.cross(ray.getDirection(), ac);
+        
+        /* if determinant is near zero, ray lies in plane of triangle */
+        Vector ab = new Vector(a, b);
+        float det= Geometry.dot(ab, pvec);
+        if (det > -Geometry.EPSILON && det < Geometry.EPSILON)
+            return false;
+        
+        float inv_det= 1.0f / det;
+        
+        /* calculate distance from vert0 to ray origin */
+         Vector tvec = new Vector(a, ray.getOrigin());
+        
+        /* calculate U parameter and test bounds */
+        float u= Geometry.dot(tvec, pvec) * inv_det;
+        if(u < 0.0f || u > 1.0f)
+            return false;
+        
+        /* prepare to test V parameter */
+        Vector qvec= Geometry.cross(tvec, ab);
+        
+        /* calculate V parameter and test bounds */
+        float v= Geometry.dot(ray.getDirection(), qvec) * inv_det;
+        if(v < 0.0f || u + v > 1.0f)
+            return false;
+        
+        /* calculate t, ray intersects triangle */
+        rt= Geometry.dot(ac, qvec) * inv_det;
+        ru= u;
+        rv= v;
+        
+        // ne renvoie vrai que si l'intersection est valide (comprise entre tmin et tmax du rayon)
+        //~ return (rt < htmax && rt > ray.tmin);
+        return (rt < htmax && rt > Geometry.RAY_EPSILON);
     }
 	
 	
