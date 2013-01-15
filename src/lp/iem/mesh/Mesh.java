@@ -56,80 +56,6 @@ public class Mesh extends IOResource
         return buffer;
     }
         
-    //! declare un ensemble d'attributs point 2d.
-/*    public MeshBuffer attachAttributeBuffer( Name semantic,  Point2 attribute_tag )
-    {
-    	MeshBuffer buffer = findBuffer(semantic);
-        if(buffer != null)
-            return null;        // deja attache
-        
-        buffer= new MeshBuffer(semantic, 2);
-        m_attributes_buffer.add(buffer);
-        return buffer;
-    }*/
-    /*
-    //! declare un ensemble d'attributs point 3d.
-    public MeshBuffer attachAttributeBuffer( Name semantic, Point attribute_tag )
-    {
-    	MeshBuffer buffer = findBuffer(semantic);
-        if(buffer != null)
-            return null;        // deja attache
-        
-        buffer= new MeshBuffer(semantic, 3);
-        m_attributes_buffer.add(buffer);
-        return buffer;
-    }
-   
-    //! declare un ensemble d'attributs vecteur 3d.
-    public MeshBuffer attachAttributeBuffer( Name semantic, Vector attribute_tag )
-    {
-    	MeshBuffer buffer = findBuffer(semantic);
-        if(buffer != null)
-            return null;        // deja attache
-        
-        buffer= new MeshBuffer(semantic, 3);
-        m_attributes_buffer.add(buffer);
-        return buffer;
-    }
-
-    //! declare un ensemble d'attributs normale 3d.
-    public MeshBuffer attachAttributeBuffer( Name semantic, Normal attribute_tag )
-    {
-    	MeshBuffer buffer = findBuffer(semantic);
-        if(buffer != null)
-            return null;        // deja attache
-        
-        buffer= new MeshBuffer(semantic, 3);
-        m_attributes_buffer.add(buffer);
-        return buffer;
-    }
-    
-    //! declare un ensemble d'attributs couleur rgba.
-    public MeshBuffer attachAttributeBuffer( Name semantic, Color attribute_tag )
-    {
-    	MeshBuffer buffer = findBuffer(semantic);
-        if(buffer != null)
-            return null;        // deja attache
-        
-        buffer= new MeshBuffer(semantic, 4);
-        m_attributes_buffer.add(buffer);
-        return buffer;
-    }
-
-    //! declare un ensemble d'attributs float.
-    public MeshBuffer attachAttributeBuffer( Name semantic, float attribute_tag )
-    {
-    	MeshBuffer buffer = findBuffer(semantic);
-        if(buffer != null)
-            return null;        // deja attache
-        
-        buffer= new MeshBuffer(semantic, 1);
-        m_attributes_buffer.add(buffer);
-        return buffer;
-    }
-    */
-    //! renvoie la position d'un sommet.
-    
     public Point position(int id )
     {
         if(id >=0 && id < m_positions.size())
@@ -272,14 +198,19 @@ public class Mesh extends IOResource
        return 0;
     }
     
-     /*
-    // TODO template< class T >
-    public int attachAttributeBuffer( Name semantic, int n,  T attributes )
+     
+    public int attachAttributeBuffer(Name semantic, ArrayList<Object> attributes, int n)
     {
-        
-        return 0;
-    }*/
-  
+	   MeshBuffer buffer = attachAttributeBuffer(semantic, new Object());
+	   
+	   if(buffer == null)
+           return -1;
+
+       for(int i= 0; i < n; i++)
+           buffer.push(attributes.get(i));
+       return 0;
+    }
+    
     //! renvoie un buffer d'apres son nom / semantique.
     public MeshBuffer findBuffer( Name semantic )
     {
@@ -305,15 +236,15 @@ public class Mesh extends IOResource
     		return null;
     }
     
-    //! TODO insere un attribut dans l'ensemble associe. 
-    /* void pushAttribute( Name semantic, T attribute )
+    //! insere un attribut dans l'ensemble associe. 
+    
+    void pushAttribute( Name semantic, Object attribute )
     {
-        MeshBuffer *buffer= findBuffer(semantic);
-        if(buffer == NULL)
+        MeshBuffer buffer = findBuffer(semantic);
+        if(buffer == null)
             return;
-        buffer->push(attribute);
+        buffer.push(attribute);
     }
-     * */
      
     //! ajoute un triangle
     public void pushTriangle( int a, int b, int c, int material_id, int smooth_group )
@@ -380,10 +311,6 @@ public class Mesh extends IOResource
         else
             return m_materials.get(material_id);
     }
-
-    //! construit les submeshes, sequences de triangles utilisant la meme matiere.
-    //! tri les triangles en fonction de leur indice de matiere, eventuellement utilise un autre tableau d'indices, cf map).
-    int buildSubMeshes( ArrayList<Integer> map){return 0;}
     
     //! definit la matiere par defaut.
     public int pushDefaultMaterial( )
@@ -590,12 +517,231 @@ public class Mesh extends IOResource
         return p1;
     }
     
+    //! construit la liste d'adjacence des sommets (liste de triangles).
+    //! \todo acces a l'adjacence.
+    public int buildAdjacency()
+    {
+    	/*
+        la tete de la liste d'adjacence du sommet d'indice a est m_position_adjacency[a]
+        toutes les listes sont concatenees dans une liste 'globale' m_adjacency
+        
+        la premiere face incidente au sommet a est m_adjacency[ m_position_adjacency[a] ]
+        les autres faces incidentes se trouvent dans les elements suivants de m_adjacency,
+        la fin de la liste est marquee par un numero de face = -1
+        
+        exemple de parcours des faces adjacentes du sommet d'indice a:
+        for(int i= m_position_adjacency[a];
+            m_adjacency[i] != -1;
+            i++;
+        {
+            le triangle d'indice m_adjacency[i] est adjacent / incident au sommet a
+        }
+     */
+    
+    int triangles_n= triangleCount();
+    int positions_n= positionCount();
+    
+    // initialise la liste d'adjacence des sommets
+    m_position_adjacency.clear();
+    
+    // passe 1 : compte le nombre de faces partageant chaque sommet
+    {
+        for(int i= 0; i < triangles_n; i++)
+        {
+            int a= m_indices.get(3*i);
+            m_position_adjacency.set(a,  m_position_adjacency.get(a) +1);
+           // m_position_adjacency[a]++;
+            
+            int b= m_indices.get(3*i +1);
+            m_position_adjacency.set(b,  m_position_adjacency.get(b) +1);
+           // m_position_adjacency[b]++;
+            
+            int c= m_indices.get(3*i +2);
+            m_position_adjacency.set(c,  m_position_adjacency.get(c) +1);
+           // m_position_adjacency[c]++;
+        }
+    }
+    
+    // passe 2 : distribue le premier element de la liste d'adjacence dans la liste globale
+    {
+        int head= 0;
+        int next= 0;
+        for(int i= 0; i < positions_n; i++)
+        {
+        	m_position_adjacency.set(i, m_position_adjacency.get(i) + 1);
+            //m_position_adjacency[i]++;      // reserve une place pour le marqeur de fin de liste
+            next= head + m_position_adjacency.get(i);
+            m_position_adjacency.set(i, head);
+           // m_position_adjacency[i]= head;
+            
+            head = next;
+        }
+        
+        // alloue la liste globale d'adjacence
+        m_adjacency.clear();
+    }
+    
+    // passe 3 : construit la liste d'adjacence
+    {
+        ArrayList<Integer> last = new ArrayList<Integer>();
+        //last.resize(positions_n);
+        {
+            // initialise la liste d'adjacence de chaque sommet
+            for(int i= 0; i < positions_n; i++)
+            {
+                /*last[i]= m_position_adjacency[i];
+                m_adjacency[last[i]]= -1;*/
+            	last.set(i, m_position_adjacency.get(i));
+            	m_adjacency.set(last.get(i), -1);
+            }
+        }
+        
+        // insere chaque triangle dans la liste d'adjacence de ses sommets
+        for(int i= 0; i < triangles_n; i++)
+        {
+            int a= m_indices.get(3*i);
+            m_adjacency.set(last.get(a) + 1, i);
+            m_adjacency.set(last.get(a) , -1);
+           /* m_adjacency[last[a]++]= i;
+            m_adjacency[last[a]]= -1;*/       // termine la liste 
+            
+            int b= m_indices.get(3*i +1);
+            m_adjacency.set(last.get(b) + 1, i);
+            m_adjacency.set(last.get(b) , -1);       // termine la liste 
+            
+            int c= m_indices.get(3*i +2);
+            m_adjacency.set(last.get(c) + 1, i);
+            m_adjacency.set(last.get(c) , -1);      // termine la liste 
+        }
+    }
+    	
+    	return 0;
+    }
+
+    //! construit les normales du maillage. 
+    public int buildNormals( ) throws Exception
+  {
+      
+      // initialise les normales des sommets
+      m_normals.clear();
+      
+      // etape 1 : accumule les normales des triangles sur chaque sommet de chaque triangle
+      {
+          int n= triangleCount();
+          for(int i=0; i < n; i++)
+          {
+              // accumule la normale geometrique du triangle sur les normales des 3 sommets
+              int ai= m_indices.get(3*i);
+              int bi= m_indices.get(3*i +1);
+              int ci= m_indices.get(3*i +2);
+              
+              Point a= position(ai);
+              Point b= position(bi);
+              Point c= position(ci);
+              Vector ab = new Vector(a, b);
+              Vector ac = new Vector(a, c);
+              Normal normal = new Normal( Geometry.cross(ab, ac) );
+
+              float length= normal.length();
+              float area= .5f * length;
+              // normale ponderee par l'aire du triangle et normalisee
+              float w= area;
+              
+              m_normals.set(ai, m_normals.get(ai).additionNormal(normal.productFloat(w)));
+              m_normals.set(bi, m_normals.get(bi).additionNormal(normal.productFloat(w)));
+              m_normals.set(ci, m_normals.get(ci).additionNormal(normal.productFloat(w)));
+             /* m_normals[ai]+= normal * w;
+              m_normals[bi]+= normal * w;
+              m_normals[ci]+= normal * w;*/
+          }
+      }
+      
+      // etape 2 : normalise les normales des sommets
+      {
+          int n= (int) m_normals.size();
+          for(int i= 0; i < n; i++)
+        	  m_normals.set(i, Geometry.normalize(m_normals.get(i)));
+              //m_normals[i]= Normalize(m_normals[i]);
+      }
+      
+      return 0;
+  }
+    
     //! renvoie le smooth group du triangle.
     public int getTriangleSmoothGroup(int id )
     {
         if(m_smooth_groups.isEmpty())
             return -1;
         return m_smooth_groups.get(id);
+    }
+    
+    public int buildSubMeshes(ArrayList<Integer> alt )
+    {
+    	if(m_materials_id.size() == triangleCount())
+    	{
+    		ArrayList<Integer> map= m_materials_id;
+    	    if(alt != null && alt.size() == m_materials_id.size())
+    	        map = alt;
+    	    
+    	 // construit le tableau de permutation
+    	    int count= triangleCount();
+    	    ArrayList<Integer> triangles = new ArrayList<Integer>();
+    	    for(int i= 0; i < count; i++)
+    	        triangles.add(i);
+    	    
+    	 // tri les triangles par matiere et le tableau de permutation
+    	   if(map != null)
+    	   {
+    		   //TODO trie tableau
+    		   material_less less = new material_less(map);
+    		   //std::stable_sort(triangles.begin(), triangles.end(), less);
+    	   }
+    	   
+    	   // construit les sub meshes
+    	    m_submeshes.clear();
+    	    int begin= 0;
+    	    int material_id = map.get(triangles.get(0));
+    	    for(int i= 1; i < count; i++)
+    	    {
+    	        if(map.get(triangles.get(i)) == material_id)
+    	            continue;
+    	        
+    	        pushSubMesh( begin, 3*i, material_id );
+    	        begin= 3*i;
+    	        material_id = map.get(triangles.get(i));
+    	    }
+    	    
+    	    pushSubMesh( begin, 3*count, material_id );
+    	    
+    	    // re ordonne les indices
+    	    {
+    	    	ArrayList<Integer> tmp = new ArrayList<Integer>();
+    	        
+    	        for(int i= 0; i < count; i++)
+    	        {
+    	            int id = triangles.get(i);
+    	            tmp.add(m_indices.get(3*id));     // a
+    	            tmp.add(m_indices.get(3*id +1));  // b
+    	            tmp.add(m_indices.get(3*id +2));  // c
+    	        }
+    	        
+    	        m_indices = tmp;
+    	        //m_indices.swap(tmp);
+    	    }
+    	    
+    	    // re ordonne les indices de matieres
+    	    {
+    	    	ArrayList<Integer> tmp = new ArrayList<Integer>();
+    	        
+    	        for(int i= 0 ; i < count; i++)
+    	            tmp.add(map.get(triangles.get(i)));
+    	        
+    	        m_materials_id = tmp;
+    	        //m_materials_id.swap(tmp);
+    	    }
+    	    return 1;
+    	}
+    	return 0;
     }
     
     public ArrayList<Point> getM_positions()
