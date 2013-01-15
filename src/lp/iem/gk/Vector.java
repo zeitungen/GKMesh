@@ -57,6 +57,14 @@ public class Vector {
 	public void setY(float y){ this.y = y; }
 	public void setZ(float z){ this.z = z; }
 	
+	public void set(int index, float f) throws Exception{
+		if(index < 0) throw new Exception("index < 0");
+		else if(index > 3) throw new Exception("index > 3");
+		if(index == 0) setX(f);
+		else if(index == 1) setY(f);
+		else if(index == 2) setZ(f);
+	}
+	
 	public void setPosition(float x, float y, float z){
 		this.setX(x);
 		this.setY(y);

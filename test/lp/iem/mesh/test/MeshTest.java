@@ -1,4 +1,4 @@
-package lp.iem.gk.test.mesh;
+package lp.iem.mesh.test;
 
 import static org.junit.Assert.*;
 
@@ -8,9 +8,9 @@ import java.util.Collections;
 import lp.iem.gk.*;
 import lp.iem.mesh.Mesh;
 import lp.iem.mesh.MeshBuffer;
+import lp.iem.mesh.Name;
 import lp.iem.mesh.MeshMaterial;
 import lp.iem.mesh.MeshTriangle;
-import lp.iem.mesh.Name;
 import lp.iem.mesh.SubMesh;
 import lp.iem.mesh.material_less;
 
