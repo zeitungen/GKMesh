@@ -692,9 +692,8 @@ public class Mesh extends IOResource
     	 // tri les triangles par matiere et le tableau de permutation
     	   if(map != null)
     	   {
-    		   //TODO trie tableau
-    		   material_less less = new material_less(map);
-    		   //std::stable_sort(triangles.begin(), triangles.end(), less);
+    		  material_less less = new material_less(map);
+    		  Collections.sort(less.getMap());
     	   }
     	   
     	   // construit les sub meshes
