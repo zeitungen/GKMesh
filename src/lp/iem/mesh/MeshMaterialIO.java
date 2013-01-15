@@ -2,7 +2,7 @@ package lp.iem.mesh;
 
 import lp.iem.io.IOManager;
 
-public class MeshMaterialIO extends IOManager{
+public class MeshMaterialIO extends IOManager<MeshMaterial>{
 	
 	private static MeshMaterialIO INSTANCE = null;
 	
@@ -10,6 +10,10 @@ public class MeshMaterialIO extends IOManager{
 		super();
 	}
 	
+	/**
+	 * singleton
+	 * @return
+	 */
 	public static MeshMaterialIO manager(){
 		if(INSTANCE == null) INSTANCE = new MeshMaterialIO();
 		return INSTANCE;

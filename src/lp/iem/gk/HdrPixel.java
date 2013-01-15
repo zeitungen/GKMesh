@@ -1,122 +1,43 @@
 package lp.iem.gk;
 
-public class HdrPixel
-{
-	private float r;
-	private float g;
-	private float b;
-	private float a;
-	
-	public HdrPixel()
-	{
-		r = 0.f;
-		g = 0.f;
-		b = 0.f;
-		a = 255.f;
-	}
-	
-	public HdrPixel(float v)
-	{
-		r = v;
-		g = v;
-		b = v;
-		a = 255;
-	}
-	
-	public HdrPixel (float v, float a)
-	{
-		r = v;
-		g = v;
-		b = v;
-		this.a = a;
+public class HdrPixel extends PixelBase{
+
+	public HdrPixel() {
+		super();
 	}
 
-	public HdrPixel (float r, float g, float b, float a)
-	{
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.a = a;
+	public HdrPixel(float v) {
+		super(v);
 	}
 
-	public HdrPixel (float r, float g, float b)
-	{
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.a = 255;
+	public HdrPixel(float v, float a) {
+		super(v, a);
 	}
 
-	public HdrPixel(Pixel p)
-	{
-		r = (float) p.getR() / 255.f;
-		g = (float) p.getG() / 255.f;
-		b = (float) p.getB() / 255.f;
-		a = (float) p.getA() / 255.f;
+	public HdrPixel(float r, float g, float b, float a) {
+		super(r, g, b, a);
 	}
-	
-	static Boolean isColoredPixel()
-	{
-		return false;
+
+	public HdrPixel(float r, float g, float b) {
+		super(r, g, b);
 	}
-	
-	static Boolean isHdrPixel()
-	{
-		return true;
+
+	public HdrPixel(Pixel p) {
+		super(p.getR() / 255.f, p.getG() / 255.f, p.getB() / 255.f, p.getA() / 255.f);
 	}
-	
-	// compare 2 HdrPix, true si elles sont egales, 0 sinon
+
+	public boolean isColoredPixel() { return false; }
+	public boolean isHdrPixel() { return true; }
+
 	@Override
-	public boolean equals(Object o) 
-	{
-		if (o == null) return false;
-	    if (getClass() != o.getClass()) return false;
-	    
-	    final HdrPixel p = (HdrPixel) o;
-	    return this.r == p.getR() && this.g == p.getG() && this.b == p.getB() && this.a == p.getA();
+	public boolean equals(Object o) {
+		if (o == null)
+			return false;
+		if (getClass() != o.getClass())
+			return false;
+
+		final HdrPixel p = (HdrPixel) o;
+		return r == p.r && g == p.g && b == p.b && a == p.a;
 	}
 
-
-
-	public float getR()
-	{
-		return r;
-	}
-
-	public void setR(float r)
-	{
-		this.r = r;
-	}
-
-	public float getG()
-	{
-		return g;
-	}
-
-	public void setG(float g)
-	{
-		this.g = g;
-	}
-
-	public float getB()
-	{
-		return b;
-	}
-
-	public void setB(float b)
-	{
-		this.b = b;
-	}
-
-	public float getA()
-	{
-		return a;
-	}
-
-	public void setA(float a)
-	{
-		this.a = a;
-	}
-
-	
 }

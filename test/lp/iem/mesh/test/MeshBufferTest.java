@@ -2,7 +2,7 @@ package lp.iem.mesh.test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import lp.iem.gk.*;
 import lp.iem.mesh.MeshBuffer;
@@ -39,7 +39,7 @@ public class MeshBufferTest
 		}
 		meshBuff.push(data);
 		
-		ArrayList <Float> list = meshBuff.getData();
+		List<Float> list = meshBuff.getData();
 		for (int i = 0; i < data.length; i++)
 		{
 			assertTrue(data[i] == list.get(i));

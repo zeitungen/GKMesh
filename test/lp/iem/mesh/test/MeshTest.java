@@ -3,7 +3,6 @@ package lp.iem.mesh.test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import lp.iem.gk.*;
 import lp.iem.mesh.Mesh;
@@ -12,7 +11,7 @@ import lp.iem.mesh.Name;
 import lp.iem.mesh.MeshMaterial;
 import lp.iem.mesh.MeshTriangle;
 import lp.iem.mesh.SubMesh;
-import lp.iem.mesh.material_less;
+import lp.iem.mesh.MaterialLess;
 
 import org.junit.Test;
 
@@ -713,7 +712,7 @@ public class MeshTest
 		list.add(2);
 		list.add(3);
 		
-		material_less mat = new material_less(list);
+		MaterialLess mat = new MaterialLess(list);
 		assertTrue(mat.superieur(0, 1) == true);
 	}
 	

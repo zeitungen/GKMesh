@@ -1,7 +1,5 @@
 package lp.iem.mesh;
 
-import lp.iem.gk.Point2;
-
 public class Name {
 
 	public static final boolean GK_NAME_STRING = true;

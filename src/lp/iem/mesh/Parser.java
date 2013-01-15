@@ -182,4 +182,39 @@ public class Parser {
 	public void skipLine(){
 		while(readToken() != '\n') ;
 	}
+
+	/**
+	 * determine the index of an attribute vertex in the mesh.
+	 * @param parser
+	 * @param attr
+	 * @param attr
+	 * @return 0 if not exist, 1 if exist, -1 if error
+	 */
+	public static int getAttributeIndex(Parser parser, int attr, int attributes_n){
+		if ( parser.getChar( 0 ) == '/' ) return 0;
+	    if ( (attr = parser.getInt( )) < 0 ) return -1;
+	        
+	    if ( attr < 0 ) attr += attributes_n;
+	    else attr -= 1;
+	        
+	    if ( attr < 0 || attr >= attributes_n ) return -1;
+	    else  return 1;
+	}
+	
+	/**
+	 * 
+	 * @param parser
+	 * @param attr
+	 * @param attributes_n
+	 * @return the new attr
+	 */
+	public static int getAttribute(Parser parser, int attr, int attributes_n){
+		if ( parser.getChar( 0 ) == '/' ) return attr;
+	    if ( (attr = parser.getInt( )) < 0 ) return attr;
+	        
+	    if ( attr < 0 ) attr += attributes_n;
+	    else attr -= 1;
+	    
+	    return attr;
+	}
 }

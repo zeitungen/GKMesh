@@ -1,11 +1,9 @@
 package lp.iem.mesh;
 
 import lp.iem.gk.Color;
-import lp.iem.gk.Point;
 import lp.iem.io.IOResource;
 
-public class MeshMaterial extends IOResource
-{
+public class MeshMaterial extends IOResource{
 	private float kd;   //!< diffus.
 	private float ks;   //!< reflechissant.
 	private float n;    //!< puissance du reflet.
@@ -21,8 +19,7 @@ public class MeshMaterial extends IOResource
 	private String name;   //!< nom de la matiere.
 
 	 //! construction d'une matiere nommee.
-	public MeshMaterial(String _name)
-	{
+	public MeshMaterial(String _name){
 		kd = 0.5f;
 		ks = 0.f;
 		n = 0.f;
@@ -37,61 +34,15 @@ public class MeshMaterial extends IOResource
         name = _name;
 	}
 	
-		
-
-	public float getKd()
-	{
-		return kd;
-	}
-
-	public float getKs()
-	{
-		return ks;
-	}
-
-	public float getN()
-	{
-		return n;
-	}
-
-	public float getNi()
-	{
-		return ni;
-	}
-
-	public Color getDiffuse()
-	{
-		return diffuse;
-	}
-
-	public Color getSpecular()
-	{
-		return specular;
-	}
-
-	public Color getTransmission()
-	{
-		return transmission;
-	}
-
-	public Color getEmission()
-	{
-		return emission;
-	}
-
-	public String getDiffuse_texture()
-	{
-		return diffuse_texture;
-	}
-
-	public String getSpecular_texture()
-	{
-		return specular_texture;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
+	public float getKd(){ return kd; }
+	public float getKs(){ return ks; }
+	public float getN(){ return n; }
+	public float getNi(){ return ni; }
+	public Color getDiffuse(){ return diffuse; }
+	public Color getSpecular(){ return specular; }
+	public Color getTransmission(){ return transmission; }
+	public Color getEmission(){ return emission; }
+	public String getDiffuse_texture(){ return diffuse_texture; }
+	public String getSpecular_texture(){ return specular_texture; }
+	public String getName(){ return name; }
 }
