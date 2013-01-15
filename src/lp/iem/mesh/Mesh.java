@@ -1,16 +1,9 @@
 package lp.iem.mesh;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-import lp.iem.gk.BBox;
-import lp.iem.gk.Geometry;
-import lp.iem.gk.Normal;
-import lp.iem.gk.PNTriangle;
-import lp.iem.gk.Point;
-import lp.iem.gk.Point2;
-import lp.iem.gk.Triangle;
-import lp.iem.gk.Vector;
-
+import lp.iem.gk.*;
 import lp.iem.io.IOResource;
 
 //! representation d'un maillage triangule.
@@ -742,123 +735,123 @@ public class Mesh extends IOResource
     	}
     	return 0;
     }
-    
-    public ArrayList<Point> getM_positions()
+        
+    public ArrayList<Point> M_positions()
 	{
 		return m_positions;
 	}
 
-	public void setM_positions(ArrayList<Point> m_positions)
+	public void M_positions(ArrayList<Point> m_positions)
 	{
 		this.m_positions = m_positions;
 	}
 
-	public ArrayList<Normal> getM_normals()
+	public ArrayList<Normal> M_normals()
 	{
 		return m_normals;
 	}
 
-	public void setM_normals(ArrayList<Normal> m_normals)
+	public void M_normals(ArrayList<Normal> m_normals)
 	{
 		this.m_normals = m_normals;
 	}
 
-	public ArrayList<Point2> getM_texcoords()
+	public ArrayList<Point2> M_texcoords()
 	{
 		return m_texcoords;
 	}
 
-	public void setM_texcoords(ArrayList<Point2> m_texcoords)
+	public void M_texcoords(ArrayList<Point2> m_texcoords)
 	{
 		this.m_texcoords = m_texcoords;
 	}
 
-	public ArrayList<Integer> getM_indices()
+	public ArrayList<Integer> M_indices()
 	{
 		return m_indices;
 	}
 
-	public void setM_indices(ArrayList<Integer> m_indices)
+	public void M_indices(ArrayList<Integer> m_indices)
 	{
 		this.m_indices = m_indices;
 	}
 
-	public ArrayList<Integer> getM_materials_id()
+	public ArrayList<Integer> M_materials_id()
 	{
 		return m_materials_id;
 	}
 
-	public void setM_materials_id(ArrayList<Integer> m_materials_id)
+	public void M_materials_id(ArrayList<Integer> m_materials_id)
 	{
 		this.m_materials_id = m_materials_id;
 	}
 
-	public ArrayList<Integer> getM_smooth_groups()
+	public ArrayList<Integer> M_smooth_groups()
 	{
 		return m_smooth_groups;
 	}
 
-	public void setM_smooth_groups(ArrayList<Integer> m_smooth_groups)
+	public void M_smooth_groups(ArrayList<Integer> m_smooth_groups)
 	{
 		this.m_smooth_groups = m_smooth_groups;
 	}
 
-	public ArrayList<Integer> getM_position_adjacency()
+	public ArrayList<Integer> M_position_adjacency()
 	{
 		return m_position_adjacency;
 	}
 
-	public void setM_position_adjacency(ArrayList<Integer> m_position_adjacency)
+	public void M_position_adjacency(ArrayList<Integer> m_position_adjacency)
 	{
 		this.m_position_adjacency = m_position_adjacency;
 	}
 
-	public ArrayList<Integer> getM_adjacency()
+	public ArrayList<Integer> M_adjacency()
 	{
 		return m_adjacency;
 	}
 
-	public void setM_adjacency(ArrayList<Integer> m_adjacency)
+	public void M_adjacency(ArrayList<Integer> m_adjacency)
 	{
 		this.m_adjacency = m_adjacency;
 	}
 
-	public ArrayList<SubMesh> getM_submeshes()
+	public ArrayList<SubMesh> M_submeshes()
 	{
 		return m_submeshes;
 	}
 
-	public void setM_submeshes(ArrayList<SubMesh> m_submeshes)
+	public void M_submeshes(ArrayList<SubMesh> m_submeshes)
 	{
 		this.m_submeshes = m_submeshes;
 	}
 
-	public ArrayList<MeshMaterial> getM_materials()
+	public ArrayList<MeshMaterial> M_materials()
 	{
 		return m_materials;
 	}
 
-	public void setM_materials(ArrayList<MeshMaterial> m_materials)
+	public void M_materials(ArrayList<MeshMaterial> m_materials)
 	{
 		this.m_materials = m_materials;
 	}
 
-	public ArrayList<MeshBuffer> getM_attributes_buffer()
+	public ArrayList<MeshBuffer> M_attributes_buffer()
 	{
 		return m_attributes_buffer;
 	}
 
-	public void setM_attributes_buffer(ArrayList<MeshBuffer> m_attributes_buffer)
+	public void M_attributes_buffer(ArrayList<MeshBuffer> m_attributes_buffer)
 	{
 		this.m_attributes_buffer = m_attributes_buffer;
 	}
 
-	public MeshMaterial getM_default_material()
+	public MeshMaterial M_default_material()
 	{
 		return m_default_material;
 	}
 
-	public void setM_default_material(MeshMaterial m_default_material)
+	public void M_default_material(MeshMaterial m_default_material)
 	{
 		this.m_default_material = m_default_material;
 	}

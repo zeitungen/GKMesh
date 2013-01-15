@@ -3,12 +3,14 @@ package lp.iem.gk.test.mesh;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import lp.iem.gk.*;
 import lp.iem.mesh.Mesh;
 import lp.iem.mesh.MeshBuffer;
 import lp.iem.mesh.MeshMaterial;
 import lp.iem.mesh.MeshTriangle;
+import lp.iem.mesh.Name;
 import lp.iem.mesh.SubMesh;
 import lp.iem.mesh.material_less;
 
@@ -58,7 +60,7 @@ public class MeshTest
 		Mesh mesh = new Mesh();
 		ArrayList<Normal> pts = new ArrayList<Normal>();
 		pts.add(new Normal(3,2,1));
-		mesh.setM_normals(pts);
+		mesh.M_normals(pts);
 		Normal p = mesh.normal(0);
 		assertEquals(new Normal(3,2,1), p);
 	}
@@ -69,7 +71,7 @@ public class MeshTest
 		Mesh mesh = new Mesh();
 		ArrayList<Point2> pts = new ArrayList<Point2>();
 		pts.add(new Point2(3,2));
-		mesh.setM_texcoords(pts);
+		mesh.M_texcoords(pts);
 		Point2 p = mesh.texcoords(0);
 		assertEquals(new Point2(3,2), p);
 	}
@@ -92,9 +94,9 @@ public class MeshTest
 		pts.add(new Point(1,2,5));
 		
 		mesh.attachPositionBuffer(pts);
-		assertTrue(mesh.getM_positions().size() == 3);
-		assertEquals(new Point(1,0,2), mesh.getM_positions().get(0));
-		assertEquals(new Point(1,2,5), mesh.getM_positions().get(2));
+		assertTrue(mesh.M_positions().size() == 3);
+		assertEquals(new Point(1,0,2), mesh.M_positions().get(0));
+		assertEquals(new Point(1,2,5), mesh.M_positions().get(2));
 	}
 
 	@Test
@@ -131,9 +133,9 @@ public class MeshTest
 		pts.add(new Normal(1,2,5));
 		
 		mesh.attachNormalBuffer(pts);
-		assertTrue(mesh.getM_normals().size() == 3);
-		assertEquals(new Normal(1,0,2), mesh.getM_normals().get(0));
-		assertEquals(new Normal(1,2,5), mesh.getM_normals().get(2));
+		assertTrue(mesh.M_normals().size() == 3);
+		assertEquals(new Normal(1,0,2), mesh.M_normals().get(0));
+		assertEquals(new Normal(1,2,5), mesh.M_normals().get(2));
 	}
 
 	@Test
@@ -170,9 +172,9 @@ public class MeshTest
 		pts.add(new Point2(2,5));
 		
 		mesh.attachTexcoordBuffer(pts);
-		assertTrue(mesh.getM_texcoords().size() == 3);
-		assertEquals(new Point2(1,0), mesh.getM_texcoords().get(0));
-		assertEquals(new Point2(2,5), mesh.getM_texcoords().get(2));
+		assertTrue(mesh.M_texcoords().size() == 3);
+		assertEquals(new Point2(1,0), mesh.M_texcoords().get(0));
+		assertEquals(new Point2(2,5), mesh.M_texcoords().get(2));
 	}
 
 	@Test
@@ -198,9 +200,9 @@ public class MeshTest
 		pts.add(new Point2(8,9));
 		pts.add(new Point2(2,5));
 		
-		assertTrue(mesh.getM_texcoords().size() == 0);
+		assertTrue(mesh.M_texcoords().size() == 0);
 		mesh.attachTexcoordBuffer(2,pts);
-		assertTrue(mesh.getM_texcoords().size() == 2);
+		assertTrue(mesh.M_texcoords().size() == 2);
 	}
 
 	@Test
@@ -212,9 +214,9 @@ public class MeshTest
 		pts.add(new Normal(8,9,9));
 		pts.add(new Normal(2,5,7));
 		
-		assertTrue(mesh.getM_normals().size() == 0);
+		assertTrue(mesh.M_normals().size() == 0);
 		mesh.attachNormalBuffer(1,pts);
-		assertTrue(mesh.getM_normals().size() == 1);
+		assertTrue(mesh.M_normals().size() == 1);
 	}
 
 	@Test
@@ -226,10 +228,10 @@ public class MeshTest
 		pts.add(new Point(8,9,9));
 		pts.add(new Point(2,5,7));
 		
-		assertTrue(mesh.getM_positions().size() == 0);
+		assertTrue(mesh.M_positions().size() == 0);
 		mesh.attachPositionBuffer(3,pts);
 		
-		assertTrue(mesh.getM_positions().size() == 3);
+		assertTrue(mesh.M_positions().size() == 3);
 		
 	}
 
@@ -270,12 +272,12 @@ public class MeshTest
 		Mesh mesh = new Mesh();
 		
 		mesh.pushTriangle(1, 2, 3, 5);
-		assertTrue(mesh.getM_indices().get(0) == 1);
-		assertTrue(mesh.getM_indices().get(1) == 2);
-		assertTrue(mesh.getM_indices().get(2) == 3);
+		assertTrue(mesh.M_indices().get(0) == 1);
+		assertTrue(mesh.M_indices().get(1) == 2);
+		assertTrue(mesh.M_indices().get(2) == 3);
 		
-		assertTrue(mesh.getM_materials_id().get(0) == 5);
-		assertTrue(mesh.getM_smooth_groups().get(0) == -1);
+		assertTrue(mesh.M_materials_id().get(0) == 5);
+		assertTrue(mesh.M_smooth_groups().get(0) == -1);
 	}
 	
 	@Test
@@ -306,13 +308,13 @@ public class MeshTest
 	public void testPushSubMesh()
 	{
 		Mesh mesh = new Mesh();
-		assertTrue(mesh.getM_submeshes().size() == 0);
+		assertTrue(mesh.M_submeshes().size() == 0);
 		
 		mesh.pushSubMesh(4, 3, 12);
-		assertTrue(mesh.getM_submeshes().size() == 1);
+		assertTrue(mesh.M_submeshes().size() == 1);
 		
 		mesh.pushSubMesh(54, 5, 72);
-		assertTrue(mesh.getM_submeshes().size() == 2);
+		assertTrue(mesh.M_submeshes().size() == 2);
 	
 		
 	}
@@ -346,7 +348,7 @@ public class MeshTest
 		
 		ArrayList<MeshMaterial> mat = new ArrayList<MeshMaterial>();
 		mat.add(new MeshMaterial("material"));
-		mesh.setM_materials(mat);
+		mesh.M_materials(mat);
 		
 		MeshMaterial Meshmat = mesh.subMeshMaterial(1);
 		
@@ -379,7 +381,7 @@ public class MeshTest
 	public void testAttachMat()
 	{
 		Mesh mesh = new Mesh();
-		assertTrue(mesh.getM_materials().size() == 0);
+		assertTrue(mesh.M_materials().size() == 0);
 		
 		ArrayList<MeshMaterial> mat = new ArrayList<MeshMaterial>();
 		mat.add(new MeshMaterial("test"));
@@ -387,7 +389,7 @@ public class MeshTest
 		mat.add(new MeshMaterial("test3"));
 		
 		mesh.attachMaterials(mat);
-		assertTrue(mesh.getM_materials().size() == 3);
+		assertTrue(mesh.M_materials().size() == 3);
 		
 	}
 	
@@ -413,8 +415,8 @@ public class MeshTest
 		Mesh mesh = new Mesh();
 		MeshMaterial mat = mesh.material(0);
 		
-		assertTrue(mat.getKd() == mesh.getM_default_material().getKd());
-		assertTrue(mat.getName() == mesh.getM_default_material().getName());
+		assertTrue(mat.getKd() == mesh.M_default_material().getKd());
+		assertTrue(mat.getName() == mesh.M_default_material().getName());
 		
 		mesh.pushMaterial(new MeshMaterial("mesh"));
 		MeshMaterial mat2 = mesh.material(0);
@@ -740,4 +742,5 @@ public class MeshTest
 		
 		assertTrue(mesh.buildSubMeshes(list) == 1);
 	}
+
 }
