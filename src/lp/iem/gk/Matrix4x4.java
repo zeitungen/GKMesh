@@ -258,4 +258,19 @@ public class Matrix4x4 {
 
         return new Matrix4x4(mInv);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        
+        final Matrix4x4 p = (Matrix4x4) o;
+        boolean x = false, y = false, z = false, w = false;
+		x = m[0][0] == p.m[0][0] && m[0][1]  == p.m[0][1]  && m[0][2]  == p.m[0][2] && m[0][3]  == p.m[0][3];
+		y = m[1][0] == p.m[1][0] && m[1][1]  == p.m[1][1]  && m[1][2]  == p.m[1][2] && m[1][3]  == p.m[1][3];
+		z = m[2][0] == p.m[2][0] && m[2][1]  == p.m[2][1]  && m[2][2]  == p.m[2][2] && m[2][3]  == p.m[2][3];
+		w = m[3][0] == p.m[3][0] && m[3][1]  == p.m[3][1]  && m[3][2]  == p.m[3][2] && m[3][3]  == p.m[3][3];
+		
+        return x && y && z && w;
+	}
 }
