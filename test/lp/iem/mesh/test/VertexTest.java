@@ -1,11 +1,11 @@
-package lp.iem.gk.test.mesh;
+package lp.iem.mesh.test;
 
 import static org.junit.Assert.*;
 import lp.iem.mesh.Vertex;
 
 import org.junit.Test;
 
-public class testVertex
+public class VertexTest
 {
 	@Test
 	public void testLess()

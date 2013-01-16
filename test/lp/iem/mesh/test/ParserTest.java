@@ -25,14 +25,16 @@ public class ParserTest {
 		parser.readToken();
 		assertEquals("aaaaa", parser.getToken());
 		
-		parser.readToken();
+		int i = parser.readToken();
 		assertEquals("", parser.getToken());
+		assertTrue(i == '\n');
 		
 		parser.readToken();
 		assertEquals("bbbb", parser.getToken());
 		
-		parser.readToken();
+		i = parser.readToken();
 		assertEquals("", parser.getToken());
+		assertTrue(i == '\n');
 		
 		parser.readToken();
 		assertEquals("uui", parser.getToken());

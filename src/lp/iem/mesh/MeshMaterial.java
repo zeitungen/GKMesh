@@ -14,8 +14,8 @@ public class MeshMaterial extends IOResource{
 	private Color transmission;        //!< couleur du 'reflet' refracte.
 	private Color emission;            //!< flux emis par la surface, en watt.
     
-	private String diffuse_texture;        //!< nom de la texture.
-	private String specular_texture;       //!< nom de la texture.
+	private String diffuseTexture;        //!< nom de la texture.
+	private String specularTexture;       //!< nom de la texture.
 	private String name;   //!< nom de la matiere.
 
 	 //! construction d'une matiere nommee.
@@ -29,8 +29,8 @@ public class MeshMaterial extends IOResource{
         specular  = new Color(0.f, 0.f, 0.f);
         transmission = new Color();
         emission = new Color();
-        diffuse_texture = "";
-        specular_texture = "";
+        diffuseTexture = "";
+        specularTexture = "";
         name = _name;
 	}
 	
@@ -42,7 +42,19 @@ public class MeshMaterial extends IOResource{
 	public Color getSpecular(){ return specular; }
 	public Color getTransmission(){ return transmission; }
 	public Color getEmission(){ return emission; }
-	public String getDiffuse_texture(){ return diffuse_texture; }
-	public String getSpecular_texture(){ return specular_texture; }
+	public String getDiffuseTexture(){ return diffuseTexture; }
+	public String getSpecularTexture(){ return specularTexture; }
 	public String getName(){ return name; }
+
+	public void setKd(float kd) { this.kd = kd; }
+	public void setKs(float ks) { this.ks = ks; }
+	public void setN(float n) { this.n = n; }
+	public void setNi(float ni) {  this.ni = ni; }
+	public void setDiffuse(Color diffuse) { this.diffuse = diffuse; }
+	public void setSpecular(Color specular) { this.specular = specular; }
+	public void setTransmission(Color transmission) { this.transmission = transmission; }
+	public void setEmission(Color emission) { this.emission = emission; }
+	public void setDiffuseTexture(String diffuseTexture) { this.diffuseTexture = diffuseTexture; }
+	public void setSpecularTexture(String specularTexture) { this.specularTexture = specularTexture; }
+	public void setName(String name) { this.name = name;  }
 }

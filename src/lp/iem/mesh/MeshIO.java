@@ -62,7 +62,6 @@ public class MeshIO extends IOManager<Mesh> {
 		return IOFileSystem.isType(filename, ".obj");
 	}
 	
-
 	public static Mesh meshLoadFromOBJ(String filename, Mesh mesh) throws Exception{
 		Parser parser = new Parser(filename);
 		if(!parser.isValid()) throw new Exception("file is not valid");
@@ -99,12 +98,13 @@ public class MeshIO extends IOManager<Mesh> {
 			int code = parser.readToken();
 			if(code == EOF) break;
 			else if(code == '\n') continue;
-			
+
 			String token = parser.getToken();
+			
 			if(token.equals(mtllib)){
 				if(parser.readString() < 0) throw new Exception("Error parser.readString()");
 				materiallib = IOFileSystem.pathname(filename) + parser.getToken();
-				MeshMaterialIO.read(filename);
+				MeshMaterialIO.read(materiallib);
 			}else if(token.equals(usemtl)){
 				if(parser.readString() < 0) throw new Exception("Error parser.readString()");
 				materialid = -1;
