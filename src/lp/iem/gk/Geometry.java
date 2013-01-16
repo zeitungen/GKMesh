@@ -5,12 +5,12 @@ import java.math.BigDecimal;
 public class Geometry {
 
 	public final static float HUGE_VAL = 999999;
-	
+
 	public final static float RAY_EPSILON = 0.0001f;
 	public final static float EPSILON = 0.00001f;
-	
+
 	public final static float ROUND_PRECISION = 0.0001f;
-			
+
 	/**
 	 * cross product of two vectors
 	 * @param v1
@@ -179,19 +179,19 @@ public class Geometry {
 		BigDecimal bp = new BigDecimal(1/precision);
 		BigDecimal bip = new BigDecimal((int)val);
 		BigDecimal bdp = bval.subtract(bip);
-		
+
 		BigDecimal bnval = bdp.multiply(bp);
 		BigDecimal bnip = new BigDecimal((int)bnval.floatValue());
 		BigDecimal bndp = bnval.subtract(bnip);
-		
+
 		BigDecimal one = new BigDecimal(1);
 		BigDecimal compare = new BigDecimal(.5f);
 		BigDecimal diff = one.subtract(bndp);
 		if(diff.compareTo(compare) == -1) bnip = bnip.add(one);
-		
+
 		BigDecimal res = bip.add(bnip.divide(bp));
 		return res.floatValue();
 	}
-	
+
 	public static float round(float val){ return round(val, ROUND_PRECISION); }
 }
