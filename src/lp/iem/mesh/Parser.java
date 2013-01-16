@@ -11,7 +11,7 @@ import lp.iem.gk.Vector;
 
 public class Parser {
 
-	private static int EOF = 0;
+	public static int EOF = -1;
 	
 	private File in;
 	private FileReader fin;
@@ -116,7 +116,10 @@ public class Parser {
 			}else if(c == '/') token += c;
 			
 			// indicate the end of line or file
-			if(token.length() == 0) return c;
+			if(token.length() == 0){
+				if(c == EOF) return EOF;
+				else return c;
+			}
 			
 			//force a end of line before a end of line
 			//if(c == -1) ungetc('\n');
@@ -149,29 +152,35 @@ public class Parser {
 	/**
 	 * read a vector 3
 	 * @return
+	 * @throws Exception 
 	 */
-	public Vector readVector3(){
+	public Vector readVector3() throws Exception{
 		Vector v = new Vector();
-		for(int i = 0; readToken() != '\n'; i++){
-			if(i > 2) return v;
+		int i = 0;
+		for(i = 0; readToken() != '\n'; i++){
+			if(i > 2) throw new Exception("error reading vertex position.");
 			float f = getFloat();
 			try { v.set(i, f); } catch (Exception e) { }
 		}
+		if(i < 3) throw new Exception("error reading vertex position.");
 		return v;
 	}
 
 	/**
 	 * read a vector 2
 	 * @return
+	 * @throws Exception 
 	 */
-	public Point2 readVector2(){
+	public Point2 readVector2() throws Exception{
 		Point2 p = new Point2();
-		for(int i = 0; readToken() != '\n'; i++){
-			if(i > 1) return p;
+		int i = 0;
+		for(i = 0; readToken() != '\n'; i++){
+			if(i > 1) throw new Exception("error reading vector2");
 			float f = getFloat();
 			if(i == 0) p.setX(f);
 			else if(i == 1) p.setY(f);
 		}
+		if(i < 2) throw new Exception("error reading vector2");
 		return p;
 	}
 

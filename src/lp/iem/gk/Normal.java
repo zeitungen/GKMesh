@@ -6,7 +6,13 @@ public class Normal
 	private float y;
 	private float z;	
 	
-	// constructeur Normal 
+	
+	public Normal(){
+		this.x = 0.f;
+		this.y = 0.f;
+		this.z = 0.f;
+	}
+	
 	public Normal(float x, float y, float z)
 	{
 		this.x = x;

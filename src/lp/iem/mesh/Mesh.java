@@ -346,7 +346,7 @@ public class Mesh extends IOResource {
 	}
 
 	// ! remplace l'ensemble de matieres.
-	public void attachMaterials(ArrayList<MeshMaterial> materials) {
+	public void attachMaterials(List<MeshMaterial> materials) {
 		m_materials = materials;
 	}
 

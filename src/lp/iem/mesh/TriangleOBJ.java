@@ -1,6 +1,8 @@
 package lp.iem.mesh;
 
-public class TriangleOBJ{
+import lp.iem.gk.Point;
+
+public class TriangleOBJ implements Comparable<TriangleOBJ>{
 	
 	private int[] indices = new int[3];
 	private int materialId;
@@ -30,5 +32,22 @@ public class TriangleOBJ{
 	
 	public static boolean materialLess(TriangleOBJ a, TriangleOBJ b){
 		return a.materialId < b.materialId;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        
+        final TriangleOBJ t = (TriangleOBJ) o;
+        return indices[0] == t.indices[0] && indices[1] == t.indices[1] && indices[2] == t.indices[2]
+        		&& materialId == t.materialId && smoothId == t.smoothId;
+	}
+
+	@Override
+	public int compareTo(TriangleOBJ another) {
+		if(equals(another)) return 0;
+		else if(materialLess(this, another)) return -1;
+		else return 1; 
 	}
 }
