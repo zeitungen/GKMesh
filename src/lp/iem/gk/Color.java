@@ -1,5 +1,7 @@
 package lp.iem.gk;
 
+import java.util.List;
+
 public class Color
 {
 	private float r;
@@ -248,6 +250,18 @@ public class Color
 	public void setA(float a)
 	{
 		this.a = a;
+	}
+	
+	public static float[] toFloatArray(List<Color> colors){
+		float[] f = new float[colors.size() * 4];
+		for(int i=0, j=0; i<colors.size(); i++){
+			Color c = colors.get(i);
+			f[j++] = c.r;
+			f[j++] = c.g;
+			f[j++] = c.b;
+			f[j++] = c.a;
+		}
+		return f;
 	}
 		
 }

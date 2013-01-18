@@ -38,7 +38,9 @@ public class ParserTest {
 		
 		parser.readToken();
 		assertEquals("uui", parser.getToken());
-
+		
+		int c = parser.readToken();
+		assertTrue(c == -1);
 	}
 
 }

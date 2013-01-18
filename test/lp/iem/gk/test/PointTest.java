@@ -1,6 +1,10 @@
 package lp.iem.gk.test;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import lp.iem.gk.Normal;
 import lp.iem.gk.Point;
 import lp.iem.gk.Vector;
@@ -95,4 +99,13 @@ public class PointTest
 	{
 	}
 
+	@Test
+	public void testToArrayFloat(){
+		List<Point> points = new ArrayList<Point>();
+		points.add(new Point(0.f, 1.f, 2.f));
+		points.add(new Point(0.f, 13.f, 2.f));
+		float[] f = Point.getFloatArray(points);
+		assertTrue(f[0] == 0.f); assertTrue(f[1] == 1.f); assertTrue(f[2] == 2.f);
+		assertTrue(f[3] == 0.f); assertTrue(f[4] == 13.f); assertTrue(f[5] == 2.f);
+	}
 }

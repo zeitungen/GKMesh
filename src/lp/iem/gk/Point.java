@@ -1,5 +1,7 @@
 package lp.iem.gk;
 
+import java.util.List;
+
 public class Point 
 {
 	private float x;
@@ -180,5 +182,16 @@ public class Point
 	public void setZ(float z)
 	{
 		this.z = z;
+	}
+
+	public static float[] getFloatArray(List<Point> points){
+		float[] f = new float[points.size() * 3];
+		for(int i=0, j=0; i<points.size(); i++){
+			Point p = points.get(i);
+			f[j++] = p.getX();
+			f[j++] = p.getY();
+			f[j++] = p.getZ();
+		}
+		return f;
 	}
 }

@@ -155,7 +155,7 @@ public class MeshIO extends IOManager<Mesh> {
 				while(parser.readToken() != '\n'){
 					// read position/texcoord/normal attributs
 					int positionid = -1, normalid = -1, texcoordid = -1;
-					if(Parser.getAttributeIndex(parser, positionid, positions.size()) != -1)
+					if(Parser.getAttributeIndex(parser, positionid, positions.size()) != 1)
 						throw new Exception("error Parser.getAttribute position");
 					positionid = Parser.getAttribute(parser, positionid, positions.size());
 					if(parser.getLastChar() == '/'){
@@ -185,9 +185,11 @@ public class MeshIO extends IOManager<Mesh> {
 					if(i > 2){
 						TriangleOBJ triangle = new TriangleOBJ(indices.get(0), indices.get(i-2), indices.get(i-1));
 						if(materialid < 0){ // use default material
-							int found = mmaterials.get(GK_DEFAULT_MATERIAL);
+							Integer foundI = mmaterials.get(GK_DEFAULT_MATERIAL);
+							int found = mmaterials.size()-1;
+							if(foundI != null) found = foundI.intValue();
 							if(found == mmaterials.size()-1){
-								MeshMaterial material = MeshMaterialIO.manager().find(GK_DEFAULT_MATERIAL);
+								MeshMaterial material = MeshMaterialIO.manager().find("", GK_DEFAULT_MATERIAL);
 								if(material == null) throw new Exception("material " + GK_DEFAULT_MATERIAL + " not found");
 								materialid = materials.size();
 								mmaterials.put(material.getName(), materialid);

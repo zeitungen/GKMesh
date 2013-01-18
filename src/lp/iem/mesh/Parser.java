@@ -36,11 +36,11 @@ public class Parser {
 	 */
 	public char getLastChar(){
 		if(token.length() == 0) return 0;
-		return token.charAt(token.length());
+		return token.charAt(token.length()-1);
 	}
 	
 	/**
-	 * return a char of the last work read bu readToken()
+	 * return a char of the last work read by readToken()
 	 * @return
 	 */
 	public char getChar(int i){ return token.charAt(i); }
@@ -58,7 +58,9 @@ public class Parser {
 	 * @return
 	 */
 	public int getInt(){
-		return Integer.parseInt(token);
+		String tmp = token;
+		if(tmp.endsWith("/")) tmp = token.substring(0, token.length()-1);
+		return Integer.parseInt(tmp);
 	}
 	
  	private static boolean isalnum(String c){
@@ -79,8 +81,10 @@ public class Parser {
 	}
 	//*/
 	
-	private char getc() throws IOException{
-		return (char)fin.read();
+	private int getc() throws IOException{
+		int c = fin.read();
+		if(c == -1) return EOF;
+		return c;
 	}
 	
 	public boolean isValid(){
@@ -97,16 +101,23 @@ public class Parser {
 		if(!isValid()) return EOF;
 		try {
 			// pass the white
-			char c = getc();
-			while( c != -1 && (c == ' ' || c == '\t'))
-				c = getc();
-					
+			int intc = getc();
+			if(intc == EOF) return EOF;
+			char c = (char)intc;
+			while(c == ' ' || c == '\t'){
+				intc = getc();
+				if(intc == EOF) return EOF;
+				c = (char)intc;
+			}
+			
 			if(c == '\r') c = '\n'; // same end of line
 			
 			token = "";
-			while(c != -1 && isToken(c)){
+			while(isToken(c)){
 				token += c;
-				c = getc();
+				intc = getc();
+				if(intc == EOF) return EOF;
+				c = (char)intc;
 				if(c == '\r') c = '\n';
 			}
 			
@@ -199,13 +210,14 @@ public class Parser {
 	 * @param attr
 	 * @return 0 if not exist, 1 if exist, -1 if error
 	 */
-	public static int getAttributeIndex(Parser parser, int attr, int attributes_n){
+	public static int getAttributeIndex(Parser parser, int attr, int attributes_n){  
 		if ( parser.getChar( 0 ) == '/' ) return 0;
-	    if ( (attr = parser.getInt( )) < 0 ) return -1;
-	        
+		try{ attr = parser.getInt(); }
+		catch(Exception e){ return -1; }
+
 	    if ( attr < 0 ) attr += attributes_n;
 	    else attr -= 1;
-	        
+   
 	    if ( attr < 0 || attr >= attributes_n ) return -1;
 	    else  return 1;
 	}
@@ -218,9 +230,11 @@ public class Parser {
 	 * @return the new attr
 	 */
 	public static int getAttribute(Parser parser, int attr, int attributes_n){
+		
 		if ( parser.getChar( 0 ) == '/' ) return attr;
-	    if ( (attr = parser.getInt( )) < 0 ) return attr;
-	        
+		try{attr = parser.getInt();}
+		catch(Exception e){ return attr; }
+	       
 	    if ( attr < 0 ) attr += attributes_n;
 	    else attr -= 1;
 	    
