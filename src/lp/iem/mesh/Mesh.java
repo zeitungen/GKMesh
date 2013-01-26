@@ -754,7 +754,7 @@ public class Mesh extends IOResource {
 		return m_positions;
 	}
 
-	public void M_positions(ArrayList<Point> m_positions) {
+	public void M_positions(List<Point> m_positions) {
 		this.m_positions = m_positions;
 	}
 
@@ -762,7 +762,7 @@ public class Mesh extends IOResource {
 		return m_normals;
 	}
 
-	public void M_normals(ArrayList<Normal> m_normals) {
+	public void M_normals(List<Normal> m_normals) {
 		this.m_normals = m_normals;
 	}
 
@@ -770,15 +770,22 @@ public class Mesh extends IOResource {
 		return m_texcoords;
 	}
 
-	public void M_texcoords(ArrayList<Point2> m_texcoords) {
+	public void M_texcoords(List<Point2> m_texcoords) {
 		this.m_texcoords = m_texcoords;
 	}
 
 	public List<Integer> M_indices() {
 		return m_indices;
 	}
+	
+	public byte[] M_indicesByte(){
+		byte[] b = new byte[m_indices.size()];
+		for(int i=0; i<m_indices.size(); i++)
+			b[i] = (byte) m_indices.get(i).intValue();
+		return b;
+	}
 
-	public void M_indices(ArrayList<Integer> m_indices) {
+	public void M_indices(List<Integer> m_indices) {
 		this.m_indices = m_indices;
 	}
 
@@ -786,7 +793,7 @@ public class Mesh extends IOResource {
 		return m_materials_id;
 	}
 
-	public void M_materials_id(ArrayList<Integer> m_materials_id) {
+	public void M_materials_id(List<Integer> m_materials_id) {
 		this.m_materials_id = m_materials_id;
 	}
 
@@ -794,7 +801,7 @@ public class Mesh extends IOResource {
 		return m_smooth_groups;
 	}
 
-	public void M_smooth_groups(ArrayList<Integer> m_smooth_groups) {
+	public void M_smooth_groups(List<Integer> m_smooth_groups) {
 		this.m_smooth_groups = m_smooth_groups;
 	}
 
@@ -802,7 +809,7 @@ public class Mesh extends IOResource {
 		return m_position_adjacency;
 	}
 
-	public void M_position_adjacency(ArrayList<Integer> m_position_adjacency) {
+	public void M_position_adjacency(List<Integer> m_position_adjacency) {
 		this.m_position_adjacency = m_position_adjacency;
 	}
 
@@ -810,7 +817,7 @@ public class Mesh extends IOResource {
 		return m_adjacency;
 	}
 
-	public void M_adjacency(ArrayList<Integer> m_adjacency) {
+	public void M_adjacency(List<Integer> m_adjacency) {
 		this.m_adjacency = m_adjacency;
 	}
 
@@ -818,7 +825,7 @@ public class Mesh extends IOResource {
 		return m_submeshes;
 	}
 
-	public void M_submeshes(ArrayList<SubMesh> m_submeshes) {
+	public void M_submeshes(List<SubMesh> m_submeshes) {
 		this.m_submeshes = m_submeshes;
 	}
 
@@ -826,7 +833,7 @@ public class Mesh extends IOResource {
 		return m_materials;
 	}
 
-	public void M_materials(ArrayList<MeshMaterial> m_materials) {
+	public void M_materials(List<MeshMaterial> m_materials) {
 		this.m_materials = m_materials;
 	}
 
@@ -834,7 +841,7 @@ public class Mesh extends IOResource {
 		return m_attributes_buffer;
 	}
 
-	public void M_attributes_buffer(ArrayList<MeshBuffer> m_attributes_buffer) {
+	public void M_attributes_buffer(List<MeshBuffer> m_attributes_buffer) {
 		this.m_attributes_buffer = m_attributes_buffer;
 	}
 
@@ -853,5 +860,6 @@ public class Mesh extends IOResource {
 	public void setM_bbox(BBox m_bbox) {
 		this.m_bbox = m_bbox;
 	}
+	
 
 }

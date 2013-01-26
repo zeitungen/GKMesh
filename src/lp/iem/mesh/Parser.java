@@ -127,10 +127,11 @@ public class Parser {
 			}else if(c == '/') token += c;
 			
 			// indicate the end of line or file
-			if(token.length() == 0){
-				if(c == EOF) return EOF;
-				else return c;
-			}
+			//if(token.length() == 0){
+				if(intc == EOF) return EOF;
+				else if(c == '\n') return '\n';
+				//else return c;
+			//}
 			
 			//force a end of line before a end of line
 			//if(c == -1) ungetc('\n');
@@ -152,9 +153,7 @@ public class Parser {
 			code = readToken();
 		}
 		
-		String tmp = str;
-		str = token;
-		token = tmp;
+		if(str.length() > 0) token = str;
 		
 		if(token.length() == 0) return -1;
 		else return 0;

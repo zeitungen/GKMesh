@@ -56,7 +56,7 @@ public class MeshMaterialIO extends IOManager<MeshMaterial> {
 
 			String token = parser.getToken();
 
-			if (token == "newmtl") {
+			if (token.equals("newmtl")) {
 				if (parser.readString() < 0) throw new Exception("error readString");
 
 				material = MeshMaterialIO.manager().find(filename, parser.getToken());
@@ -72,51 +72,51 @@ public class MeshMaterialIO extends IOManager<MeshMaterial> {
 
 			if (material == null) continue;
 
-			if (token == "Kd"){ // diffuse
+			if (token.equals("Kd")){ // diffuse
 				Vector v = parser.readVector3();
 
 				float k = v.length();
 				if (k > 0.f) v = Geometry.normalize(v);
 				material.setDiffuse(new Color(v.getX(), v.getY(), v.getZ()));
 				material.setKd(k);
-			} else if (token == "kd"){ // diffuse
+			} else if (token.equals("kd")){ // diffuse
 				if (parser.readToken() < 0) throw new Exception("error readToken");
 				float v = parser.getFloat();
 
 				material.setKd(v);
 			}
 
-			else if (token == "map_Kd"){ // diffuse color texture
+			else if (token.equals("map_Kd")){ // diffuse color texture
 				if (parser.readString() < 0) throw new Exception("error readString");
 
 				// construire le chemin d'acces de la texture
 				material.setDiffuseTexture(IOFileSystem.pathname(filename) + parser.getToken());
-			} else if (token == "Ks"){ // specular color
+			} else if (token.equals("Ks")){ // specular color
 				Vector v = parser.readVector3();
 				float k = v.length();
 
 				if (k > 0.f) v = Geometry.normalize(v);
 				material.setSpecular(new Color(v.getX(), v.getY(), v.getZ()));
 				material.setKd(k);
-			} else if (token == "ks"){ // specular
+			} else if (token.equals("ks")){ // specular
 				if (parser.readToken() < 0) throw new Exception("error readToken");
 					
 				float v = parser.getFloat();
 				material.setKs(v);
-			} else if (token == "map_Ks"){ // specular/glossy color texture
+			} else if (token.equals("map_Ks")){ // specular/glossy color texture
 				if (parser.readString() < 0) throw new Exception("error readString");
 
 				// construire le chemin d'acces de la texture
 				material.setSpecularTexture(IOFileSystem.pathname(filename) + parser.getToken());
-			} else if (token == "Ns"){ // phong exp
+			} else if (token.equals("Ns")){ // phong exp
 				if (parser.readToken() < 0) throw new Exception("error readString");
 				material.setN(parser.getFloat());
 				if (material.getN() < 0) throw new Exception("error getN");
-			} else if (token == "Ni"){ // indice de refraction
+			} else if (token.equals("Ni")){ // indice de refraction
 				if (parser.readToken() < 0) throw new Exception("error readToken");
 				material.setNi(parser.getFloat());
 				if (material.getNi() < 0) throw new Exception("error getNi");
-			} else if (token == "Le"){ // emission d'une source
+			} else if (token.equals("Le")){ // emission d'une source
 				Vector v  = parser.readVector3();
 				material.setEmission(new Color(v.getX(), v.getY(), v.getZ()));
 			} else parser.skipLine(); // commande non reconnue
