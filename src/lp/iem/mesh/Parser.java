@@ -129,7 +129,7 @@ public class Parser {
 			// indicate the end of line or file
 			//if(token.length() == 0){
 				if(intc == EOF) return EOF;
-				else if(c == '\n') return '\n';
+				if(c == '\n') return (int)'\n';
 				//else return c;
 			//}
 			
@@ -167,7 +167,10 @@ public class Parser {
 	public Vector readVector3() throws Exception{
 		Vector v = new Vector();
 		int i = 0;
-		for(i = 0; readToken() != '\n'; i++){
+		boolean again = true;
+		for(i = 0; again; i++){
+			if(readToken() == '\n') again = false;
+			if(token.length() == 0) continue;
 			if(i > 2) throw new Exception("error reading vertex position.");
 			float f = getFloat();
 			try { v.set(i, f); } catch (Exception e) { }

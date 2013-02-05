@@ -97,7 +97,7 @@ public class MeshIO extends IOManager<Mesh> {
 		while(true){
 			int code = parser.readToken();
 			if(code == EOF) break;
-			else if(code == '\n') continue;
+			else if(code == (int)'\n') continue;
 
 			String token = parser.getToken();
 			
@@ -152,20 +152,28 @@ public class MeshIO extends IOManager<Mesh> {
 			}else if(token.equals("f")){
 				int i = 0;
 				indices = new ArrayList<Integer>();
-				while(parser.readToken() != '\n'){
+				boolean again = true;
+				while(again){
+					if(parser.readToken() == '\n') again = false;
+					if(parser.getToken().length() == 0) continue;
+					
 					// read position/texcoord/normal attributs
 					int positionid = -1, normalid = -1, texcoordid = -1;
 					if(Parser.getAttributeIndex(parser, positionid, positions.size()) != 1)
 						throw new Exception("error Parser.getAttribute position");
 					positionid = Parser.getAttribute(parser, positionid, positions.size());
 					if(parser.getLastChar() == '/'){
-						if(parser.readToken() == '\n') throw new Exception("error read part 'f'");
+						//if(parser.readToken() == '\n') throw new Exception("error read part 'f'");
+						if(!again) throw new Exception("error read part 'f'");
+						if(parser.readToken() == '\n') again = false;
 						int texcoordcode = Parser.getAttributeIndex(parser, texcoordid, texcoords.size());
 						texcoordid = Parser.getAttribute(parser, texcoordid, texcoords.size());
 						if(texcoordcode < 0) throw new Exception("error Parser.getAttribute texcoord");
 						else if(texcoordcode > 0) hasTexcoords = true;
 						if(parser.getLastChar() == '/'){
-							if(parser.readToken() == '\n') throw new Exception("error read part 'f'");
+							//if(parser.readToken() == '\n') throw new Exception("error read part 'f'");
+							if(!again) throw new Exception("error read part 'f'");
+							if(parser.readToken() == '\n') again = false;
 							int normalcode = Parser.getAttributeIndex(parser, normalid, normals.size());
 							normalid = Parser.getAttribute(parser, normalid, normals.size());
 							if(normalcode < 0) throw new Exception("error Parser.getAttribute normal");

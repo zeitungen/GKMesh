@@ -22,7 +22,7 @@ import lp.iem.io.IOResource;
  * associated one matter. Triangles sharers the same material can be grouped in
  * SubMesh for an effective display.
  * 
- * @author Maxence Trinqet & Maxime Journaux
+ * @author Maxence Trinquet & Maxime Journaux
  * 
  */
 public class Mesh extends IOResource {
