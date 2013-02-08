@@ -162,6 +162,7 @@ public class MeshIO extends IOManager<Mesh> {
 					if(Parser.getAttributeIndex(parser, positionid, positions.size()) != 1)
 						throw new Exception("error Parser.getAttribute position");
 					positionid = Parser.getAttribute(parser, positionid, positions.size());
+					hasPositions = true;
 					if(parser.getLastChar() == '/'){
 						//if(parser.readToken() == '\n') throw new Exception("error read part 'f'");
 						if(!again) throw new Exception("error read part 'f'");

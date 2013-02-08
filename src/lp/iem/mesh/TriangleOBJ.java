@@ -50,4 +50,9 @@ public class TriangleOBJ implements Comparable<TriangleOBJ>{
 		else if(materialLess(this, another)) return -1;
 		else return 1; 
 	}
+	
+	@Override
+	public String toString(){
+		return "TriangleOBJ{" + a() + "," + b() + "," + c() + ",mtl=" + material() + ",smooth=" + smoothId + "}";
+	}
 }
