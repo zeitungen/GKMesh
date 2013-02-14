@@ -26,10 +26,10 @@ public class ColorTest
 		Color c2 = new Color(2.f,5.f,8,1);
 		Color c4 = new Color(12.f,5,(float)10.4,1.f);
 		
-		Color c3 = c1.additionColor(c2);
+		Color c3 = c1.addition(c2);
 		assertEquals(c3,new Color(14.f,10,(float)18.4,2.f));
 		
-		c4.additionColor2(c2);
+		c4.add(c2);
 		assertEquals(c4,new Color(14.f,10,(float)18.4,2.f));
 	}
 	
@@ -40,7 +40,7 @@ public class ColorTest
 		Color c2 = new Color(2.f,2,8,1);
 		Color c3 = new Color(12.f,5,(float)10.4,1.f);
 		
-		Color c4 = c1.substractionColor(c2);
+		Color c4 = c1.substraction(c2);
 		
 		assertEquals(c4,new Color(10,3,2,0));
 		
@@ -60,10 +60,10 @@ public class ColorTest
 		c1.productColor(c2);
 		assertEquals(c1, new Color(24,10,80,1));
 		
-		Color c5 = c1.productByFloat(2);
+		Color c5 = c1.productColor(2);
 		assertEquals(c5,new Color(24,10,20,2));
 		
-		c1.productByFloat2(2);
+		c1.product(2);
 		assertEquals(c1,new Color(24,10,20,2));
 	}
 	
@@ -75,7 +75,7 @@ public class ColorTest
 		Color c3 = c1.divideByFloat(2);
 		assertEquals(c3, new Color(6,3,5,3));
 		
-		c1.divideByFloat2(2);
+		c1.divide(2);
 		assertEquals(c1, new Color(6,3,5,3));
 		
 	}

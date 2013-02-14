@@ -19,7 +19,12 @@ public class IOName {
 	public String getName(){ return this.name; }
 	public String getFileName() throws Exception{ return this.handle.getFileName(); }
 	
-    //! necessaire pour l'insertion dans une std::map, comparaison sur le nom uniquement.
+	/**
+	 * comparison of the name only
+	 * @param n
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean inferior(IOName n) throws Exception{
 		if(this.handle.getFile() == null) throw new Exception("handle.file is null");
 		if(n.handle.getFile() == null) throw new Exception("n.handle.file is null");

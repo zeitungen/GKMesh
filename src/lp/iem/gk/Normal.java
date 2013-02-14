@@ -1,168 +1,183 @@
 package lp.iem.gk;
 
-public class Normal
-{
+import java.util.List;
+
+public class Normal {
+	
 	private float x;
 	private float y;
-	private float z;	
-	
-	
-	public Normal(){
+	private float z;
+
+	public Normal() {
 		this.x = 0.f;
 		this.y = 0.f;
 		this.z = 0.f;
 	}
-	
-	public Normal(float x, float y, float z)
-	{
+
+	public Normal(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-	
-	public Normal(Vector v)
-	{
+
+	public Normal(Vector v) {
 		x = v.getX();
 		y = v.getY();
 		z = v.getZ();
 	}
 
-	// retourn l'opposé de la normal
-	public Normal opposite ()
-	{
+	/**
+	 * 
+	 * @return the opposite
+	 */
+	public Normal opposite() {
 		return new Normal(-x, -y, -z);
 	}
-	
-	// addition de 2 Normal : q = p + n , et retourn la normal q
-	public Normal additionNormal (Normal n)
-	{
+
+	/**
+	 * addition of two normals, q = this + n
+	 * @param n
+	 * @return q
+	 */
+	public Normal addition(Normal n) {
 		return new Normal(x + n.getX(), y + n.getY(), z + n.getZ());
 	}
-	
-	// addition de 2 Normal : p = p + n ,
-	public void additionNormal2 (Normal n)
-	{
+
+	/**
+	 * addition of two normals, this = this + n
+	 * @param n
+	 */
+	public void add(Normal n) {
 		x += n.getX();
 		y += n.getY();
 		z += n.getZ();
 	}
-	
-	// soustraction de 2 Normal : q = p - n et retourne la normal q
-	public Normal substractionNormal (Normal n)
-	{
+
+	/**
+	 * subtraction of two normals, q = this - n
+	 * @param n
+	 * @return q
+	 */
+	public Normal substraction(Normal n) {
 		return new Normal(x - n.getX(), y - n.getY(), z - n.getZ());
 	}
-	
-	// soustraction de 2 Normal : p = p - n ,
-	public void substractionNormal2 (Normal n)
-	{
+
+	/**
+	 *  subtraction of two normals, this = this - n
+	 * @param n
+	 */
+	public void substract(Normal n) {
 		x -= n.getX();
 		y -= n.getY();
 		z -= n.getZ();
 	}
-	
-	// produit d'une normal avec un float : q = p * f, retourn la normal q
-	public Normal productFloat(float f)
-	{
-		return new Normal(x*f, y*f, z*f);		
+
+	/**
+	 * product of a normal wiha real, q = this * f
+	 * @param f
+	 * @return q
+	 */
+	public Normal productFloat(float f) {
+		return new Normal(x * f, y * f, z * f);
 	}
-	
-	// produit d'une normal avec un float : p = p * f
-	public void productFloat2(float f)
-	{
+
+	/**
+	 * product of a normal wiha real, this = this * f
+	 * @param f
+	 */
+	public void product(float f) {
 		x = x * f;
 		y = y * f;
 		z = z * f;
 	}
-	
-	// division d'une normal par un float : q = p / f, retourne la normal q
-	public Normal dividByFloat(float f)
-	{
-		if (f != 0)
-		{
-			 float inv = 1.f / f;
-		     return new Normal( x * inv, y * inv, z * inv );
+
+	/**
+	 * division of a normal by a real, q = this / f
+	 * @param f
+	 * @return q
+	 */
+	public Normal division(float f) {
+		if (f != 0) {
+			float inv = 1.f / f;
+			return new Normal(x * inv, y * inv, z * inv);
 		}
 		return null;
 	}
-	
-	// division d'une normal par n float : p  = p /f
-	public void dividByFLoat2(float f)
-	{
-		if(f != 0)
-		{
+
+	/**
+	 *  division of a normal by a real, this = this / f
+	 * @param f
+	 */
+	public void divide(float f) {
+		if (f != 0) {
 			float inv = 1.f / f;
-	        x *= inv;
-	        y *= inv;
-	        z *= inv;
+			x *= inv;
+			y *= inv;
+			z *= inv;
 		}
 	}
-		
-	// return the squared length of the vector
-	public float lengthSquared()
-	{
+
+	/**
+	 * @return the squared length of the vector
+	 */
+	public float lengthSquared() {
 		return this.x * this.x + this.y * this.y + this.z * this.z;
 	}
-	
-	// return the  length of the vector
-	public float length()
-	{
-		return (float)Math.sqrt(this.lengthSquared());
+
+	/** 
+	 * @return the length of the vector
+	 */
+	public float length() {
+		return (float) Math.sqrt(this.lengthSquared());
 	}
-	
-	public float get(int index) throws Exception
-	{
+
+	public float get(int index) throws Exception {
 		if (index < 0)
-			throw new Exception ("index <0");
-		else if(index > 2)
-			throw new Exception ("index > 2");
-		else if(index == 0)
+			throw new Exception("index <0");
+		else if (index > 2)
+			throw new Exception("index > 2");
+		else if (index == 0)
 			return this.x;
-		else if(index == 1)
+		else if (index == 1)
 			return this.y;
-		else 
-			return this.z;		
+		else
+			return this.z;
 	}
+
 	@Override
-	public boolean equals(Object o)
-	{
-		if (o == null) return false;
-        if (getClass() != o.getClass()) return false;
-        
-        final Normal p = (Normal) o;
-        return (this.x == p.getX() && this.y == p.getY() && this.z == p.getZ());
+	public boolean equals(Object o) {
+		if (o == null)
+			return false;
+		if (getClass() != o.getClass())
+			return false;
+
+		final Normal p = (Normal) o;
+		return (this.x == p.getX() && this.y == p.getY() && this.z == p.getZ());
 	}
-	
+
 	@Override
-	public String toString()
-	{
-		// TODO : arrondire au dixieme
-		return "X : "+x+ " Y : "+y+ " Z :"+z;
+	public String toString() {
+		// TODO : round the tenth
+		return "Normal{" + x + ", " + y + ", " + z + "}";
 	}
-	
-	public float getX()
-	{
-		return x;
+
+	public float getX() { return x; }
+	public float getY() { return y; }
+	public float getZ() { return z; }
+
+	public void setX(float x) { this.x = x; }
+	public void setY(float y) { this.y = y; }
+	public void setZ(float z) { this.z = z; }
+
+	public static float[] getFloatArray(List<Normal> normals) {
+		float[] f = new float[normals.size() * 3];
+		for (int i = 0, j = 0; i < normals.size(); i++) {
+			Normal n = normals.get(i);
+			f[j++] = n.getX();
+			f[j++] = n.getY();
+			f[j++] = n.getZ();
+		}
+		return f;
 	}
-	public void setX(float x)
-	{
-		this.x = x;
-	}
-	public float getY()
-	{
-		return y;
-	}
-	public void setY(float y)
-	{
-		this.y = y;
-	}
-	public float getZ()
-	{
-		return z;
-	}
-	public void setZ(float z)
-	{
-		this.z = z;
-	}
-		
+
 }

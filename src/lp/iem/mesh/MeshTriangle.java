@@ -1,6 +1,10 @@
 package lp.iem.mesh;
 
-//! representation indexee des sommets d'un triangle.
+
+/**
+ * Indexed representation vertices of a triangle
+ * @author Maxime Journaux and Maxence Trinquet
+ */
 public class MeshTriangle {
 
 	Mesh mesh;
@@ -20,7 +24,12 @@ public class MeshTriangle {
 		c = _c;
 	}
 
-	// ! renvoie l'indice du sommet k.
+	/**
+	 * 
+	 * @param index
+	 * @return vertex k index
+	 * @throws Exception
+	 */
 	public int vertex(int index) throws Exception {
 		if (index < 0)
 			throw new Exception("index <0");
@@ -34,18 +43,14 @@ public class MeshTriangle {
 			return this.c;
 	}
 
-	// ! renvoie l'indice du sommet k.
+	/**
+	 * 
+	 * @param index
+	 * @return vertex k index
+	 * @throws Exception
+	 */
 	public int get(int index) throws Exception {
-		if (index < 0)
-			throw new Exception("index <0");
-		else if (index > 2)
-			throw new Exception("index > 2");
-		else if (index == 0)
-			return this.a;
-		else if (index == 1)
-			return this.b;
-		else
-			return this.c;
+		return vertex(index);
 	}
 
 	@Override

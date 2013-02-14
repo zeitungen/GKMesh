@@ -1,35 +1,45 @@
 package lp.iem.gk;
 
-public class Hit
-{
-	   private Point pt;    //!< point d'intersection
-	   private Normal norm;   //!< normale
-	   private Normal tang1, tang2;      //!< repere tangent
-	   private  float tmin;    //!< abscisse min le long du rayon
-	   private float t;    //!< abscisse le long du rayon
-	   private  float u, v; //!< coordonnees de textures / parametres de surface
-	   private int object_id;      //!< identifiant de l'objet/triangle intersecte
-	   private  int node_id;      //!< identifiant du noeud / pere du noeud intersecte
-	   private int child_id;       //! identifiant du fils intersecte
-	   private float user_data;    //!< donnee collectee pendant le suivi de rayon
-	   
-	   public Hit()
-	   {
-		   tmin = Geometry.RAY_EPSILON;
-		   t = Geometry.HUGE_VAL;
-		   object_id = -1; 
-	       node_id = -1;
-	       child_id = -1;
-	       user_data = 0.f;
-	   }
-	   
-	   public Hit( Ray ray)
-	   {
-		   tmin = Geometry.RAY_EPSILON;
-		   t = ray.getTmax();
-		   object_id = -1; 
-	       node_id = -1;
-	       child_id = -1;
-	       user_data = 0.f;
-	   }
+public class Hit {
+	private Point pt; 				// intersect point
+	private Normal norm; 			// normal
+	private Normal tang1, tang2; 	// tangent benchmark
+	private float tmin; 			// min abscissa along the radius
+	private float t; 				// abscissa along the radius
+	private float u, v; 			// coordinates of texture / surface parameters
+	private int objectId; 			// object identifier / intersect triangle 
+	private int nodeId; 			// identifier of the node / intersect father node
+	private int childId; 			// intersect son identifier 
+	private float userData; 		// collected data during ray tracing
+
+	public Hit() {
+		tmin = Geometry.RAY_EPSILON;
+		t = Geometry.HUGE_VAL;
+		objectId = -1;
+		nodeId = -1;
+		childId = -1;
+		userData = 0.f;
+	}
+
+	public Hit(Ray ray) {
+		tmin = Geometry.RAY_EPSILON;
+		t = ray.getTmax();
+		objectId = -1;
+		nodeId = -1;
+		childId = -1;
+		userData = 0.f;
+	}
+	
+	public Point getPoint() { return pt; }
+	public Normal getNormal() { return norm; }
+	public Normal getTangent1() { return tang1; }
+	public Normal getTangent2() { return tang2; }
+	public float getTmin() { return tmin; }
+	public float getT() { return t; }
+	public float getU() { return u; }
+	public float getV() { return v; }
+	public int getObjectId() { return objectId; }
+	public int getNodeId() { return nodeId; }
+	public int getChildId() { return childId; }
+	public float getUserData() { return userData; }
 }

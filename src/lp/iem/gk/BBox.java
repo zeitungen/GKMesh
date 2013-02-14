@@ -243,8 +243,8 @@ public class BBox {
 	 */
 	public void expand(float delta){
 		Vector v = new Vector(delta, delta, delta);
-		this.min.substraction(v);
-		this.max.addition(v);
+		this.min.subtract(v);
+		this.max.add(v);
 	}
 	
 	/**

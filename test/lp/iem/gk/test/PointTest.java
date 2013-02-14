@@ -32,7 +32,7 @@ public class PointTest
 		Point test = new Point(1,1,1);
 		Vector v = new Vector (2,2,2);
 
-		point3.addition(v);
+		point3.add(v);
 	}
 	
 	@Test
@@ -42,10 +42,10 @@ public class PointTest
 		Point test2 = new Point((float) 2.5,9,4);
 		Vector v = new Vector (2,1,2);
 		
-		Vector res = test2.substractionPoint(test);
-		Point res2 = test2.substractionVector(v);
+		Vector res = test2.subtraction(test);
+		Point res2 = test2.subtraction(v);
 
-		test2.substraction(v);
+		test2.subtract(v);
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ public class PointTest
 		Point p1 = new Point(25,12,15);
 		float f = (float) 2;
 		
-		p1.dividByFloat2(f);
+		p1.divide(f);
 		Point p2 = new Point((float)12.5,6,(float)7.5);
 		
 		assertEquals(p1,p2);

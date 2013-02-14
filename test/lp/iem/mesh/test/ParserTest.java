@@ -42,5 +42,15 @@ public class ParserTest {
 		int c = parser.readToken();
 		assertTrue(c == -1);
 	}
+	
+	@Test
+	public void testReadString(){
+		parser = new Parser("src/lp/iem/mesh/test/simple.mtl");
+		parser.readToken();
+		System.out.println(parser.getToken());
+		int c = parser.readString();
+		System.out.println(c);
+		System.out.println(parser.getToken());
+	}
 
 }

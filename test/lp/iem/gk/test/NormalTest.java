@@ -34,10 +34,10 @@ public class NormalTest
 	public void testAddition()
 	{
 		Normal n3 = new Normal(28,(float)30.5,(float)28.2);
-		Normal res = n1.additionNormal(n2);
+		Normal res = n1.addition(n2);
 		assertEquals(res, n3);
 		
-		n1.additionNormal2(n2);
+		n1.add(n2);
 		assertEquals(n1, n3);
 	}
 	
@@ -47,10 +47,10 @@ public class NormalTest
 		Normal n3 = new Normal(3,(float)4.5,2);
 		Normal n4 = new Normal(6,4,2);
 		
-		Normal res = n4.substractionNormal(n3);
+		Normal res = n4.substraction(n3);
 		assertEquals(res, new Normal(3,(float)-0.5,0));
 		
-		n4.substractionNormal2(n4);
+		n4.substract(n4);
 		assertEquals(n4,new Normal(0,0,0));
 	}
 
@@ -63,7 +63,7 @@ public class NormalTest
 		Normal res = n4.productFloat((float)0.5);
 		assertEquals(res, new Normal(3,(float)0.5,1));
 		
-		n4.dividByFLoat2(2);
+		n4.divide(2);
 		assertEquals(n4,new Normal(3,(float)0.5,1));
 		
 	}
@@ -74,10 +74,10 @@ public class NormalTest
 		Normal n3 = new Normal(3,(float)4.5,2);
 		Normal n4 = new Normal(6,1,2);
 		
-		Normal res = n4.dividByFloat(10);
+		Normal res = n4.division(10);
 		assertEquals(res, new Normal((float)0.6,(float)0.1,(float)0.2));
 		
-		n4.dividByFLoat2(2);
+		n4.divide(2);
 		assertEquals(n4, new Normal(3,(float)0.5,1));
 	}
 	

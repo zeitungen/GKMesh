@@ -154,7 +154,7 @@ public class Matrix4x4 {
         else if( wt == 1.f ) return new Point( xt, yt, zt );
         else{
         	Point po = new Point(xt, yt, zt);
-        	po.dividByFloat2(wt);
+        	po.divide(wt);
         	return po;
         }
 	}

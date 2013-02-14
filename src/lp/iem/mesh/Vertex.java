@@ -1,7 +1,5 @@
 package lp.iem.mesh;
 
-import lp.iem.gk.Normal;
-
 public class Vertex {
 	
 	private int[] indices = new int[4];
@@ -15,18 +13,20 @@ public class Vertex {
 		indices[3] = t;
 	}
 
-	// ! comparaison de 2 sommets pour l'insertion dans une std::map.
+	/**
+	 * comparison of two vertex
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public static boolean less(Vertex a, Vertex b) {
-		// definit un ordre lexicographique sur la matiere + les 3 indices :
-		// position, normale, texcoord
+		// defines a lexicographic order on the materials + 3 indices : position, normal, texcoord
 		for (int i = 0; i < 4; i++) {
-			if (a.indices[i] < b.indices[i])
-				// renvoie vrai lorsque a < b
+			if (a.indices[i] < b.indices[i]) // return true when a < b
 				return true;
 			else if (a.indices[i] > b.indices[i])
 				return false;
 		}
-
 		return false;
 	}
 
@@ -36,17 +36,26 @@ public class Vertex {
 	 */
 	int material() { return indices[0]; }
 
-	// ! renvoie l'indice de la position du sommet.
+	/**
+	 * 
+	 * @return the index of the position of the vertex
+	 */
 	int position() {
 		return indices[1];
 	}
 
-	// ! renvoie l'indice de la normale du sommet.
+	/**
+	 * 
+	 * @return the index of the normal vertex
+	 */
 	int normal() {
 		return indices[2];
 	}
 
-	// ! renvoie l'indice de la coordonnee de texture du sommet.
+	/**
+	 * 
+	 * @return  the index of the texture coordinate of vertex
+	 */
 	int texcoord() {
 		return indices[3];
 	}
@@ -67,7 +76,6 @@ public class Vertex {
 	
 	@Override
 	public String toString(){
-		return "Vertex{m=" + indices[0] + "; p=" + indices[1] + "; n=" + indices[2] + "; t=" + indices[3] + "}";
-				
+		return "Vertex{m=" + indices[0] + "; p=" + indices[1] + "; n=" + indices[2] + "; t=" + indices[3] + "}";		
 	}
 }

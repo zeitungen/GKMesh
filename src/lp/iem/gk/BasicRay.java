@@ -1,7 +1,6 @@
 package lp.iem.gk;
 
-public class BasicRay
-{
+public class BasicRay{
 
 	private Point o;    	// origin
 	private float tmax;   	// valid interval along the radius
@@ -75,7 +74,7 @@ public class BasicRay
      */
     public Point abscisse(float t){
     	d.product(t);
-        return o.additionVector(d); 
+        return o.addition(d); 
     }
 
 	public Point getOrigin(){ return o; }

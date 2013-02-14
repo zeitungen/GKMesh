@@ -63,14 +63,29 @@ public class Geometry {
 	 */
 	public static float absDot(Vector v1, Vector v2) { return Math.abs(dot(v1, v2)); }
 
-	// ! max(0, dot) du produit scalaire de 2 vecteurs.
+	/**
+	 * max(0, dot) of cross product of 2 vertocs
+	 * @param v1
+	 * @param v2
+	 * @return
+	 */
 	public static float zeroDot(Vector v1, Vector v2) { return Math.max(0.f, dot(v1, v2)); }
 
-	// ! renvoie un vecteur de longueur 1 de meme direction que v.
+	/**
+	 * 
+	 * @param v
+	 * @return a vector of length 1, same direction as v
+	 * @throws Exception
+	 */
 	public static Vector normalize(Vector v) throws Exception { return v.division(v.length()); }
 
-	// ! construit un repere orthogonal dont la normale est aligne sur un
-	// vecteur v1, v2 et v3 sont les 2 tangentes, retourn vecteur.
+	/**
+	 * constructed an orthogonal whose normal vector aligns with a v1, v2 and v3 are the two tangents
+	 * @param v1
+	 * @param v2
+	 * @param v3
+	 * @return
+	 */
 	public static Vector[] coordinateSystem(Vector v1, Vector v2, Vector v3) {
 		if (Math.abs(v1.getX()) > Math.abs(v1.getY())) {
 			float invLen = (float) (1.f / Math.sqrt(v1.getX() * v1.getX()
@@ -89,19 +104,19 @@ public class Geometry {
 	}
 
 	// ! renvoie la distance entre 2 points.
-	public static float distance(Point p1, Point p2) { return (p1.substractionPoint(p2)).length(); }
+	public static float distance(Point p1, Point p2) { return (p1.subtraction(p2)).length(); }
 
 	// renvoie la distanceSquared entre 2 points
-	public static float distanceSquared(Point p1, Point p2) { return (p1.substractionPoint(p2)).lengthSquared(); }
+	public static float distanceSquared(Point p1, Point p2) { return (p1.subtraction(p2)).lengthSquared(); }
 
 	// ! scalaire * point.
-	public static Point productPointFloat(float f, Point p) { return p.productFloat(f); }
+	public static Point productPointFloat(float f, Point p) { return p.productPoint(f); }
 
 	// ! scalaire * normale.
 	public static Normal productNormFloat(float f, Normal n) { return n.productFloat(f); }
 
 	// ! renvoie une normale de meme direction, mais de longeur 1.
-	public static Normal normalize(Normal v) throws Exception { return v.dividByFloat(v.length()); }
+	public static Normal normalize(Normal v) throws Exception { return v.division(v.length()); }
 
 	public static Vector vector(Normal n) { return new Vector(n.getX(), n.getY(), n.getZ()); }
 

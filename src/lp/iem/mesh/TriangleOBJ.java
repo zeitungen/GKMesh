@@ -1,7 +1,5 @@
 package lp.iem.mesh;
 
-import lp.iem.gk.Point;
-
 public class TriangleOBJ implements Comparable<TriangleOBJ>{
 	
 	private int[] indices = new int[3];

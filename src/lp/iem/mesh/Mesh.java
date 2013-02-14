@@ -26,19 +26,20 @@ import lp.iem.io.IOResource;
  * 
  */
 public class Mesh extends IOResource {
-	private List<Point> m_positions = new ArrayList<Point>();
-	private List<Normal> m_normals = new ArrayList<Normal>();
-	private List<Point2> m_texcoords = new ArrayList<Point2>();
-	private List<Integer> m_indices = new ArrayList<Integer>(); 			// 3*triangles.size()
-	private List<Integer> m_materials_id = new ArrayList<Integer>(); 		// triangles.size()
-	private List<Integer> m_smooth_groups = new ArrayList<Integer>(); 		// triangles.size()
-	private List<Integer> m_position_adjacency = new ArrayList<Integer>(); 	// positions.size(), first element of the adjency vertex list
-	private List<Integer> m_adjacency = new ArrayList<Integer>(); 			// 2*positions.size() ? global list m_adjacency[m_position_adjacency[id]] .. -1
-	private List<SubMesh> m_submeshes = new ArrayList<SubMesh>();
-	private List<MeshMaterial> m_materials = new ArrayList<MeshMaterial>();
-	private List<MeshBuffer> m_attributes_buffer = new ArrayList<MeshBuffer>();
+	private List<Point> positions = new ArrayList<Point>();
+	private List<Normal> normals = new ArrayList<Normal>();
+	private List<Point2> texcoords = new ArrayList<Point2>();
+	private List<Integer> indices = new ArrayList<Integer>(); 				// 3*triangles.size()
+	private List<Integer> materialsId = new ArrayList<Integer>(); 			// triangles.size()
+	private List<Integer> smoothGroups = new ArrayList<Integer>(); 			// triangles.size()
+	private List<Integer> positionAdjacency = new ArrayList<Integer>(); 	// positions.size(), first element of the adjency vertex list
+	private List<Integer> adjacency = new ArrayList<Integer>(); 			// 2*positions.size() ? global list m_adjacency[m_position_adjacency[id]] .. -1
+	private List<SubMesh> submeshes = new ArrayList<SubMesh>();
+	private List<MeshMaterial> materials = new ArrayList<MeshMaterial>();
+	private List<MeshBuffer> attributesBuffer = new ArrayList<MeshBuffer>();
 
 	private MeshMaterial m_default_material;
+	
 	private BBox m_bbox = new BBox();;
 
 	public Mesh() {
@@ -59,13 +60,13 @@ public class Mesh extends IOResource {
 			return null; // deja attache
 
 		buffer = new MeshBuffer(semantic, 2);
-		m_attributes_buffer.add(buffer);
+		attributesBuffer.add(buffer);
 		return buffer;
 	}
 
 	public Point position(int id) {
-		if (id >= 0 && id < m_positions.size())
-			return m_positions.get(id);
+		if (id >= 0 && id < positions.size())
+			return positions.get(id);
 		else
 			return null;
 	}
@@ -77,8 +78,8 @@ public class Mesh extends IOResource {
 	 * @return
 	 */
 	public Normal normal(int id) {
-		if (id >= 0 && id < m_normals.size())
-			return m_normals.get(id);
+		if (id >= 0 && id < normals.size())
+			return normals.get(id);
 		else
 			return null;
 	}
@@ -90,8 +91,8 @@ public class Mesh extends IOResource {
 	 * @return
 	 */
 	public Point2 texcoords(int id) {
-		if (id >= 0 && id < m_texcoords.size())
-			return m_texcoords.get(id);
+		if (id >= 0 && id < texcoords.size())
+			return texcoords.get(id);
 		else
 			return null;
 	}
@@ -103,9 +104,9 @@ public class Mesh extends IOResource {
 	 * @return
 	 */
 	public int pushPosition(Point point) {
-		m_positions.add(point);
+		positions.add(point);
 		m_bbox.union(point);
-		return m_positions.size() - 1;
+		return positions.size() - 1;
 	}
 
 	/**
@@ -114,7 +115,7 @@ public class Mesh extends IOResource {
 	 * @param positions
 	 */
 	public void attachPositionBuffer(ArrayList<Point> positions) {
-		m_positions = positions;
+		this.positions = positions;
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class Mesh extends IOResource {
 			ArrayList<Point> listPoint = new ArrayList<Point>();
 			for (int i = 0; i < n; i++)
 				listPoint.add(positions.get(i));
-			m_positions = listPoint;
+			this.positions = listPoint;
 		}
 	}
 
@@ -137,9 +138,7 @@ public class Mesh extends IOResource {
 	 * 
 	 * @return
 	 */
-	public int positionCount() {
-		return (int) m_positions.size();
-	}
+	public int positionCount() { return (int) positions.size(); }
 
 	/**
 	 * add a normal
@@ -148,8 +147,8 @@ public class Mesh extends IOResource {
 	 * @return
 	 */
 	public int pushNormal(Normal normal) {
-		m_normals.add(normal);
-		return m_normals.size() - 1;
+		normals.add(normal);
+		return normals.size() - 1;
 	}
 
 	/**
@@ -157,7 +156,7 @@ public class Mesh extends IOResource {
 	 * @param normals
 	 */
 	public void attachNormalBuffer(ArrayList<Normal> normals) {
-		m_normals = normals;
+		this.normals = normals;
 	}
 
 	/**
@@ -171,7 +170,7 @@ public class Mesh extends IOResource {
 			for (int i = 0; i < n; i++) {
 				listNormal.add(normals.get(i));
 			}
-			m_normals = listNormal;
+			this.normals = listNormal;
 		}
 	}
 
@@ -179,9 +178,7 @@ public class Mesh extends IOResource {
 	 * 
 	 * @return the number of normal mesh.
 	 */
-	public int normalCount() {
-		return (int) m_normals.size();
-	}
+	public int normalCount() { return (int) normals.size(); }
 
 	/**
 	 * add a coordinated texture.
@@ -189,8 +186,8 @@ public class Mesh extends IOResource {
 	 * @return
 	 */
 	public int pushTexcoord(Point2 texcoord) {
-		m_texcoords.add(texcoord);
-		return m_texcoords.size() - 1;
+		texcoords.add(texcoord);
+		return texcoords.size() - 1;
 	}
 
 	/**
@@ -198,25 +195,30 @@ public class Mesh extends IOResource {
 	 * @param texcoords
 	 */
 	public void attachTexcoordBuffer(ArrayList<Point2> texcoords) {
-		m_texcoords = texcoords;
+		this.texcoords = texcoords;
 	}
 
-	// ! ajoute un ensemble de coordonnees de texture.
+	/**
+	 * adds a set of texture coordinates
+	 * @param n
+	 * @param texcoords
+	 */
 	public void attachTexcoordBuffer(int n, ArrayList<Point2> texcoords) {
 		if (n < texcoords.size() + 1) {
 			ArrayList<Point2> listPoint2 = new ArrayList<Point2>();
 			for (int i = 0; i < n; i++) {
 				listPoint2.add(texcoords.get(i));
 			}
-			m_texcoords = listPoint2;
+			this.texcoords = listPoint2;
 		}
 
 	}
 
-	// ! renvoie le nombre de coordonnees de textures des sommets du maillage.
-	public int texcoordCount() {
-		return (int) m_texcoords.size();
-	}
+	/**
+	 * 
+	 * @return the number of textures coordinates of the vertices
+	 */
+	public int texcoordCount() { return (int) texcoords.size(); }
 
 	public int attachAttributeBuffer(Name semantic, ArrayList<Object> attributes) {
 		MeshBuffer buffer = attachAttributeBuffer(semantic, new Object());
@@ -242,24 +244,28 @@ public class Mesh extends IOResource {
 		return 0;
 	}
 
-	// ! renvoie un buffer d'apres son nom / semantique.
+	/**
+	 * 
+	 * @param semantic
+	 * @return a buffer by name / semantic
+	 */
 	public MeshBuffer findBuffer(Name semantic) {
-		int n = (int) m_attributes_buffer.size();
+		int n = (int) attributesBuffer.size();
 		for (int i = 0; i < n; i++)
-			if (m_attributes_buffer.get(i).getName() == semantic)
-				return m_attributes_buffer.get(i);
+			if (attributesBuffer.get(i).getName() == semantic)
+				return attributesBuffer.get(i);
 		return null;
 	}
 
 	// ! renvoie le nombre de buffers d'attributs.
 	public int bufferCount() {
-		return (int) m_attributes_buffer.size();
+		return (int) attributesBuffer.size();
 	}
 
 	// ! renvoie un buffer.
 	public MeshBuffer buffer(int id) {
-		if (id < m_attributes_buffer.size() && id > -1)
-			return m_attributes_buffer.get(id);
+		if (id < attributesBuffer.size() && id > -1)
+			return attributesBuffer.get(id);
 		else
 			return null;
 	}
@@ -276,96 +282,96 @@ public class Mesh extends IOResource {
 	// ! ajoute un triangle
 	public void pushTriangle(int a, int b, int c, int material_id,
 			int smooth_group) {
-		m_indices.add(a);
-		m_indices.add(b);
-		m_indices.add(c);
+		indices.add(a);
+		indices.add(b);
+		indices.add(c);
 
-		m_materials_id.add(material_id);
-		m_smooth_groups.add(smooth_group);
+		materialsId.add(material_id);
+		smoothGroups.add(smooth_group);
 	}
 
 	// ! ajoute un triangle
 	public void pushTriangle(int a, int b, int c, int material_id) {
-		m_indices.add(a);
-		m_indices.add(b);
-		m_indices.add(c);
+		indices.add(a);
+		indices.add(b);
+		indices.add(c);
 
-		m_materials_id.add(material_id);
-		m_smooth_groups.add(-1);
+		materialsId.add(material_id);
+		smoothGroups.add(-1);
 	}
 
 	// ! renvoie le nombre de triangles du maillage.
 	public int triangleCount() {
-		return (int) m_indices.size() / 3;
+		return (int) indices.size() / 3;
 	}
 
 	// ! renvoie le nombre d'indices du maillage.
 	public int indiceCount() {
-		return (int) m_indices.size();
+		return (int) indices.size();
 	}
 
 	// ! ajoute un submesh.
 	public void pushSubMesh(int begin, int end, int material_id) {
-		m_submeshes.add(new SubMesh(begin, end, material_id));
+		submeshes.add(new SubMesh(begin, end, material_id));
 	}
 
 	// ! renvoie le nombre de submesh.
 	public int subMeshCount() {
-		return (int) m_submeshes.size();
+		return (int) submeshes.size();
 	}
 
 	// ! renvoie un submesh.
 	public SubMesh subMesh(int submesh_id) {
-		if (submesh_id < m_submeshes.size())
-			return m_submeshes.get(submesh_id);
+		if (submesh_id < submeshes.size())
+			return submeshes.get(submesh_id);
 		else
 			return null;
 	}
 
 	// ! renvoie la matiere d'un submesh.
 	public MeshMaterial subMeshMaterial(int id) {
-		int material_id = m_submeshes.get(id).getMaterial_id();
+		int material_id = submeshes.get(id).getMaterial_id();
 
 		if (material_id < 0)
 			return m_default_material;
 		else
-			return m_materials.get(material_id);
+			return materials.get(material_id);
 	}
 
 	// ! definit la matiere par defaut.
 	public int pushDefaultMaterial() {
-		m_materials.add(m_default_material);
+		materials.add(m_default_material);
 
-		return (int) m_materials.size() - 1;
+		return (int) materials.size() - 1;
 	}
 
 	// ! insere une matiere.
 	public int pushMaterial(MeshMaterial material) {
-		m_materials.add(material);
-		return (int) m_materials.size() - 1;
+		materials.add(material);
+		return (int) materials.size() - 1;
 	}
 
 	// ! remplace l'ensemble de matieres.
 	public void attachMaterials(List<MeshMaterial> materials) {
-		m_materials = materials;
+		this.materials = materials;
 	}
 
 	// ! renvoie le nombre de matieres.
 	public int materialCount() {
-		return (int) m_materials.size();
+		return (int) materials.size();
 	}
 
 	// ! renvoie une matiere.
 	public MeshMaterial material(int material_id) {
-		if (m_materials.isEmpty())
+		if (materials.isEmpty())
 			return m_default_material;
 		else
-			return m_materials.get(material_id);
+			return materials.get(material_id);
 	}
 
 	// ! renvoie la matiere d'un triangle.
 	public MeshMaterial triangleMaterial(int id) {
-		int material_id = m_materials_id.get(id);
+		int material_id = materialsId.get(id);
 
 		if (material_id < 0)
 			return m_default_material;
@@ -375,14 +381,14 @@ public class Mesh extends IOResource {
 
 	// ! renvoie l'indice de la matiere d'un triangle.
 	public int getTriangleMaterialId(int id) {
-		return m_materials_id.get(id);
+		return materialsId.get(id);
 	}
 
 	// ! renvoie un triangle 'indexe', les 3 indices des sommets du triangle.
 	public MeshTriangle getMeshTriangle(int id) {
 		if (id >= 0 && id < triangleCount())
-			return new MeshTriangle(this, m_indices.get(3 * id),
-					m_indices.get(3 * id + 1), m_indices.get(3 * id + 2));
+			return new MeshTriangle(this, indices.get(3 * id),
+					indices.get(3 * id + 1), indices.get(3 * id + 2));
 		else
 			return null;
 	}
@@ -393,21 +399,21 @@ public class Mesh extends IOResource {
 	// les texcoords interpolees au point d'intersection.
 	// ! cf. Mesh::getUVPoint(), Mesh::getUVNormal(), Mesh::getUVTexcoord().
 	public Triangle getTriangle(int id) {
-		Point a = position(m_indices.get(3 * id));
-		Point b = position(m_indices.get(3 * id + 1));
-		Point c = position(m_indices.get(3 * id + 2));
+		Point a = position(indices.get(3 * id));
+		Point b = position(indices.get(3 * id + 1));
+		Point c = position(indices.get(3 * id + 2));
 
 		return new Triangle(a, b, c);
 	}
 
 	// ! renvoie un pn triangle.
 	public PNTriangle getPNTriangle(int id) throws Exception {
-		if (m_normals.size() != m_positions.size()) {
+		if (normals.size() != positions.size()) {
 			// pas de normales associees aux sommets, calcule la normale
 			// geometrique.
-			Point a = position(m_indices.get(3 * id));
-			Point b = position(m_indices.get(3 * id + 1));
-			Point c = position(m_indices.get(3 * id + 2));
+			Point a = position(indices.get(3 * id));
+			Point b = position(indices.get(3 * id + 1));
+			Point c = position(indices.get(3 * id + 2));
 			Vector ab = new Vector(a, b);
 			Vector ac = new Vector(a, c);
 			Normal nn = new Normal(Geometry.normalize(Geometry.cross(ab, ac)));
@@ -416,18 +422,18 @@ public class Mesh extends IOResource {
 		}
 
 		// renvoie les normales associees aux sommets du triangle
-		Normal na = normal(m_indices.get(3 * id));
-		Normal nb = normal(m_indices.get(3 * id + 1));
-		Normal nc = normal(m_indices.get(3 * id + 2));
+		Normal na = normal(indices.get(3 * id));
+		Normal nb = normal(indices.get(3 * id + 1));
+		Normal nc = normal(indices.get(3 * id + 2));
 
 		return new PNTriangle(getTriangle(id), na, nb, nc);
 	}
 
 	// ! renvoie la boite englobante d'un triangle.
 	public BBox getTriangleBBox(int id) {
-		Point a = position(m_indices.get(3 * id));
-		Point b = position(m_indices.get(3 * id + 1));
-		Point c = position(m_indices.get(3 * id + 2));
+		Point a = position(indices.get(3 * id));
+		Point b = position(indices.get(3 * id + 1));
+		Point c = position(indices.get(3 * id + 2));
 
 		BBox bbox = new BBox();
 		bbox.union(a);
@@ -439,9 +445,9 @@ public class Mesh extends IOResource {
 
 	// ! renvoie l'aire d'un triangle.
 	public float getTriangleArea(int id) {
-		Point a = position(m_indices.get(3 * id));
-		Point b = position(m_indices.get(3 * id + 1));
-		Point c = position(m_indices.get(3 * id + 2));
+		Point a = position(indices.get(3 * id));
+		Point b = position(indices.get(3 * id + 1));
+		Point c = position(indices.get(3 * id + 2));
 		Vector ab = new Vector(a, b);
 		Vector ac = new Vector(a, c);
 
@@ -450,9 +456,9 @@ public class Mesh extends IOResource {
 
 	// ! calcule et renvoie la normale geometrique d'un triangle.
 	public Normal getTriangleNormal(int id) throws Exception {
-		Point a = position(m_indices.get(3 * id));
-		Point b = position(m_indices.get(3 * id + 1));
-		Point c = position(m_indices.get(3 * id + 2));
+		Point a = position(indices.get(3 * id));
+		Point b = position(indices.get(3 * id + 1));
+		Point c = position(indices.get(3 * id + 2));
 		Vector ab = new Vector(a, b);
 		Vector ac = new Vector(a, c);
 
@@ -466,17 +472,17 @@ public class Mesh extends IOResource {
 	// coordonnees barycentriques du point.
 	// ! convention p(u, v)= (1 - u - v) * a + u * b + v * c
 	public Point getUVPoint(int id, float u, float v) {
-		Point a = position(m_indices.get(3 * id));
-		Point b = position(m_indices.get(3 * id + 1));
-		Point c = position(m_indices.get(3 * id + 2));
+		Point a = position(indices.get(3 * id));
+		Point b = position(indices.get(3 * id + 1));
+		Point c = position(indices.get(3 * id + 2));
 
 		float w = 1.f - u - v;
-		Point p1 = a.productFloat(w);
-		Point p2 = b.productFloat(u);
-		Point p3 = c.productFloat(v);
+		Point p1 = a.productPoint(w);
+		Point p2 = b.productPoint(u);
+		Point p3 = c.productPoint(v);
 
-		p1.additionPoint(p2);
-		p1.additionPoint(p3);
+		p1.add(p2);
+		p1.add(p3);
 
 		return p1;
 	}
@@ -485,22 +491,22 @@ public class Mesh extends IOResource {
 	// coordonnees barycentriques.
 	// ! convention n(u, v)= (1 - u - v) * a + u * b + v * c
 	public Normal getUVNormal(int id, float u, float v) throws Exception {
-		if (m_normals.isEmpty())
+		if (normals.isEmpty())
 			// renvoie la normale geometrique, si les normales des sommets
 			// n'existent pas
 			return getTriangleNormal(id);
 
-		Normal a = normal(m_indices.get(3 * id));
-		Normal b = normal(m_indices.get(3 * id + 1));
-		Normal c = normal(m_indices.get(3 * id + 2));
+		Normal a = normal(indices.get(3 * id));
+		Normal b = normal(indices.get(3 * id + 1));
+		Normal c = normal(indices.get(3 * id + 2));
 
 		float w = 1.f - u - v;
 		Normal n1 = a.productFloat(w);
 		Normal n2 = b.productFloat(u);
 		Normal n3 = c.productFloat(v);
 
-		n1.additionNormal2(n2);
-		n1.additionNormal2(n3);
+		n1.add(n2);
+		n1.add(n3);
 
 		return Geometry.normalize(n1);
 	}
@@ -509,13 +515,13 @@ public class Mesh extends IOResource {
 	// connaissant ses coordonnees barycentriques.
 	// ! convention t(u, v)= (1 - u - v) * a + u * b + v * c
 	public Point2 getUVTexcoord(int id, float u, float v) {
-		if (m_texcoords.isEmpty())
+		if (texcoords.isEmpty())
 			// pas de coordonnee de textures dans le maillage.
 			return new Point2();
 
-		Point2 a = texcoords(m_indices.get(3 * id));
-		Point2 b = texcoords(m_indices.get(3 * id + 1));
-		Point2 c = texcoords(m_indices.get(3 * id + 2));
+		Point2 a = texcoords(indices.get(3 * id));
+		Point2 b = texcoords(indices.get(3 * id + 1));
+		Point2 c = texcoords(indices.get(3 * id + 2));
 
 		float w = 1.f - u - v;
 
@@ -552,21 +558,21 @@ public class Mesh extends IOResource {
 		int positions_n = positionCount();
 
 		// initialise la liste d'adjacence des sommets
-		m_position_adjacency.clear();
+		positionAdjacency.clear();
 
 		// passe 1 : compte le nombre de faces partageant chaque sommet
 		{
 			for (int i = 0; i < triangles_n; i++) {
-				int a = m_indices.get(3 * i);
-				m_position_adjacency.set(a, m_position_adjacency.get(a) + 1);
+				int a = indices.get(3 * i);
+				positionAdjacency.set(a, positionAdjacency.get(a) + 1);
 				// m_position_adjacency[a]++;
 
-				int b = m_indices.get(3 * i + 1);
-				m_position_adjacency.set(b, m_position_adjacency.get(b) + 1);
+				int b = indices.get(3 * i + 1);
+				positionAdjacency.set(b, positionAdjacency.get(b) + 1);
 				// m_position_adjacency[b]++;
 
-				int c = m_indices.get(3 * i + 2);
-				m_position_adjacency.set(c, m_position_adjacency.get(c) + 1);
+				int c = indices.get(3 * i + 2);
+				positionAdjacency.set(c, positionAdjacency.get(c) + 1);
 				// m_position_adjacency[c]++;
 			}
 		}
@@ -577,18 +583,18 @@ public class Mesh extends IOResource {
 			int head = 0;
 			int next = 0;
 			for (int i = 0; i < positions_n; i++) {
-				m_position_adjacency.set(i, m_position_adjacency.get(i) + 1);
+				positionAdjacency.set(i, positionAdjacency.get(i) + 1);
 				// m_position_adjacency[i]++; // reserve une place pour le
 				// marqeur de fin de liste
-				next = head + m_position_adjacency.get(i);
-				m_position_adjacency.set(i, head);
+				next = head + positionAdjacency.get(i);
+				positionAdjacency.set(i, head);
 				// m_position_adjacency[i]= head;
 
 				head = next;
 			}
 
 			// alloue la liste globale d'adjacence
-			m_adjacency.clear();
+			adjacency.clear();
 		}
 
 		// passe 3 : construit la liste d'adjacence
@@ -602,27 +608,27 @@ public class Mesh extends IOResource {
 					 * last[i]= m_position_adjacency[i]; m_adjacency[last[i]]=
 					 * -1;
 					 */
-					last.set(i, m_position_adjacency.get(i));
-					m_adjacency.set(last.get(i), -1);
+					last.set(i, positionAdjacency.get(i));
+					adjacency.set(last.get(i), -1);
 				}
 			}
 
 			// insere chaque triangle dans la liste d'adjacence de ses sommets
 			for (int i = 0; i < triangles_n; i++) {
-				int a = m_indices.get(3 * i);
-				m_adjacency.set(last.get(a) + 1, i);
-				m_adjacency.set(last.get(a), -1);
+				int a = indices.get(3 * i);
+				adjacency.set(last.get(a) + 1, i);
+				adjacency.set(last.get(a), -1);
 				/*
 				 * m_adjacency[last[a]++]= i; m_adjacency[last[a]]= -1;
 				 */// termine la liste
 
-				int b = m_indices.get(3 * i + 1);
-				m_adjacency.set(last.get(b) + 1, i);
-				m_adjacency.set(last.get(b), -1); // termine la liste
+				int b = indices.get(3 * i + 1);
+				adjacency.set(last.get(b) + 1, i);
+				adjacency.set(last.get(b), -1); // termine la liste
 
-				int c = m_indices.get(3 * i + 2);
-				m_adjacency.set(last.get(c) + 1, i);
-				m_adjacency.set(last.get(c), -1); // termine la liste
+				int c = indices.get(3 * i + 2);
+				adjacency.set(last.get(c) + 1, i);
+				adjacency.set(last.get(c), -1); // termine la liste
 			}
 		}
 
@@ -637,15 +643,15 @@ public class Mesh extends IOResource {
 	public int buildNormals() throws Exception {
 
 		// initializes vertex normals
-		m_normals.clear();
+		normals.clear();
 
 		// Step 1: normal accumulates triangles on each vertex of each triangle
 		int n = triangleCount();
 		for (int i = 0; i < n; i++) {
 			// accumulates normal geometry of the triangle normals on 3 vertices
-			int ai = m_indices.get(3 * i);
-			int bi = m_indices.get(3 * i + 1);
-			int ci = m_indices.get(3 * i + 2);
+			int ai = indices.get(3 * i);
+			int bi = indices.get(3 * i + 1);
+			int ci = indices.get(3 * i + 2);
 
 			Point a = position(ai);
 			Point b = position(bi);
@@ -659,18 +665,18 @@ public class Mesh extends IOResource {
 			// normal weighted by the area of ​​the triangle and normalized
 			float w = area;
 
-			m_normals.set(ai, m_normals.get(ai).additionNormal(normal.productFloat(w)));
-			m_normals.set(bi, m_normals.get(bi).additionNormal(normal.productFloat(w)));
-			m_normals.set(ci, m_normals.get(ci).additionNormal(normal.productFloat(w)));
+			normals.set(ai, normals.get(ai).addition(normal.productFloat(w)));
+			normals.set(bi, normals.get(bi).addition(normal.productFloat(w)));
+			normals.set(ci, normals.get(ci).addition(normal.productFloat(w)));
 			/*
 			 * m_normals[ai]+= normal * w; m_normals[bi]+= normal * w;
 			 * m_normals[ci]+= normal * w;
 			 */
 		}
 		// Step 2: normalize vertex normals
-		n = (int) m_normals.size();
+		n = (int) normals.size();
 		for (int i = 0; i < n; i++)
-			m_normals.set(i, Geometry.normalize(m_normals.get(i)));
+			normals.set(i, Geometry.normalize(normals.get(i)));
 		// m_normals[i]= Normalize(m_normals[i]);
 
 		return 0;
@@ -682,15 +688,15 @@ public class Mesh extends IOResource {
 	 * @return the triangle smooth group
 	 */
 	public int getTriangleSmoothGroup(int id) {
-		if (m_smooth_groups.isEmpty())
+		if (smoothGroups.isEmpty())
 			return -1;
-		return m_smooth_groups.get(id);
+		return smoothGroups.get(id);
 	}
 
 	public int buildSubMeshes(ArrayList<Integer> alt) {
-		if (m_materials_id.size() == triangleCount()) {
-			List<Integer> map = m_materials_id;
-			if (alt != null && alt.size() == m_materials_id.size())
+		if (materialsId.size() == triangleCount()) {
+			List<Integer> map = materialsId;
+			if (alt != null && alt.size() == materialsId.size())
 				map = alt;
 
 			// construit le tableau de permutation
@@ -706,7 +712,7 @@ public class Mesh extends IOResource {
 			}
 
 			// construit les sub meshes
-			m_submeshes.clear();
+			submeshes.clear();
 			int begin = 0;
 			int material_id = map.get(triangles.get(0));
 			for (int i = 1; i < count; i++) {
@@ -726,12 +732,12 @@ public class Mesh extends IOResource {
 
 				for (int i = 0; i < count; i++) {
 					int id = triangles.get(i);
-					tmp.add(m_indices.get(3 * id)); // a
-					tmp.add(m_indices.get(3 * id + 1)); // b
-					tmp.add(m_indices.get(3 * id + 2)); // c
+					tmp.add(indices.get(3 * id)); // a
+					tmp.add(indices.get(3 * id + 1)); // b
+					tmp.add(indices.get(3 * id + 2)); // c
 				}
 
-				m_indices = tmp;
+				indices = tmp;
 				// m_indices.swap(tmp);
 			}
 
@@ -742,7 +748,7 @@ public class Mesh extends IOResource {
 				for (int i = 0; i < count; i++)
 					tmp.add(map.get(triangles.get(i)));
 
-				m_materials_id = tmp;
+				materialsId = tmp;
 				// m_materials_id.swap(tmp);
 			}
 			return 1;
@@ -751,98 +757,119 @@ public class Mesh extends IOResource {
 	}
 
 	public List<Point> M_positions() {
-		return m_positions;
+		return positions;
 	}
 
 	public void M_positions(List<Point> m_positions) {
-		this.m_positions = m_positions;
+		this.positions = m_positions;
 	}
 
 	public List<Normal> M_normals() {
-		return m_normals;
+		return normals;
 	}
 
 	public void M_normals(List<Normal> m_normals) {
-		this.m_normals = m_normals;
+		this.normals = m_normals;
 	}
 
 	public List<Point2> M_texcoords() {
-		return m_texcoords;
+		return texcoords;
 	}
 
 	public void M_texcoords(List<Point2> m_texcoords) {
-		this.m_texcoords = m_texcoords;
+		this.texcoords = m_texcoords;
 	}
 
 	public List<Integer> M_indices() {
-		return m_indices;
+		return indices;
+	}
+	
+	public int[] M_indicesArray(){
+		int[] a = new int[indices.size()];
+		for(int i=0; i<indices.size(); i++)
+			a[i] = indices.get(i).intValue();
+		return a;
+	}
+	
+	public float[] M_indicesFloatArray(){
+		float[] a = new float[indices.size()];
+		for(int i=0; i<indices.size(); i++)
+			a[i] = indices.get(i).intValue();
+		return a;
+	}
+	
+	public short[] M_indicesShortArray(){
+		short[] a = new short[indices.size()];
+		for(int i=0; i<indices.size(); i++)
+			a[i] = indices.get(i).shortValue();
+		return a;
 	}
 	
 	public byte[] M_indicesByte(){
-		byte[] b = new byte[m_indices.size()];
-		for(int i=0; i<m_indices.size(); i++)
-			b[i] = (byte) m_indices.get(i).intValue();
+		byte[] b = new byte[indices.size()];
+		for(int i=0; i<indices.size(); i++)
+			b[i] = (byte) indices.get(i).intValue();
 		return b;
 	}
 
 	public void M_indices(List<Integer> m_indices) {
-		this.m_indices = m_indices;
+		this.indices = m_indices;
 	}
 
 	public List<Integer> M_materials_id() {
-		return m_materials_id;
+		return materialsId;
 	}
 
 	public void M_materials_id(List<Integer> m_materials_id) {
-		this.m_materials_id = m_materials_id;
+		this.materialsId = m_materials_id;
 	}
 
 	public List<Integer> M_smooth_groups() {
-		return m_smooth_groups;
+		return smoothGroups;
 	}
 
 	public void M_smooth_groups(List<Integer> m_smooth_groups) {
-		this.m_smooth_groups = m_smooth_groups;
+		this.smoothGroups = m_smooth_groups;
 	}
 
 	public List<Integer> M_position_adjacency() {
-		return m_position_adjacency;
+		return positionAdjacency;
 	}
 
 	public void M_position_adjacency(List<Integer> m_position_adjacency) {
-		this.m_position_adjacency = m_position_adjacency;
+		this.positionAdjacency = m_position_adjacency;
 	}
 
 	public List<Integer> M_adjacency() {
-		return m_adjacency;
+		return adjacency;
 	}
 
 	public void M_adjacency(List<Integer> m_adjacency) {
-		this.m_adjacency = m_adjacency;
+		this.adjacency = m_adjacency;
 	}
 
 	public List<SubMesh> M_submeshes() {
-		return m_submeshes;
+		return submeshes;
 	}
 
 	public void M_submeshes(List<SubMesh> m_submeshes) {
-		this.m_submeshes = m_submeshes;
+		this.submeshes = m_submeshes;
 	}
 
 	public List<MeshMaterial> M_materials() {
-		return m_materials;
+		return materials;
 	}
 
 	public void M_materials(List<MeshMaterial> m_materials) {
-		this.m_materials = m_materials;
+		this.materials = m_materials;
 	}
 
 	public List<MeshBuffer> M_attributes_buffer() {
-		return m_attributes_buffer;
+		return attributesBuffer;
 	}
 
 	public void M_attributes_buffer(List<MeshBuffer> m_attributes_buffer) {
-		this.m_attributes_buffer = m_attributes_buffer;
+		this.attributesBuffer = m_attributes_buffer;
 	}
 
 	public MeshMaterial M_default_material() {
