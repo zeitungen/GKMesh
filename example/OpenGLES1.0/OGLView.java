@@ -12,8 +12,17 @@ public class OGLView extends GLSurfaceView {
 	   
 	   // For touch event
 	   private final float TOUCH_SCALE_FACTOR = 180.0f / 320.0f;
-	   private float previousX;
-	   private float previousY;
+	   
+	   private float oneFingerPreviousX;
+	   private float oneFingerPreviousY;
+	   
+	   private float first2FingersPreviousX;
+	   private float first2FingersPreviousY;
+	   private float second2FingersPreviousX;
+	   private float second2FingersPreviousY;
+	   private float currentDistance;
+	   
+	   private int nbFingers;
 
 	   // Constructor - Allocate and set the renderer
 	   public OGLView(Context context, Mesh mesh) {
@@ -23,6 +32,9 @@ public class OGLView extends GLSurfaceView {
 	      // Request focus, otherwise key/button won't react
 	      this.requestFocus();  
 	      this.setFocusableInTouchMode(true);
+	      
+	      this.nbFingers = 0;
+	      this.currentDistance = 0;
 	   }
 	   
 	   // Handler for key event
@@ -56,22 +68,63 @@ public class OGLView extends GLSurfaceView {
 	   // Handler for touch event
 	   @Override
 	   public boolean onTouchEvent(final MotionEvent evt) {
-	      float currentX = evt.getX();
-	      float currentY = evt.getY();
-	      Log.d("OGLView", currentX+","+currentY);
-	      float deltaX, deltaY;
-	      switch (evt.getAction()) {
-	         case MotionEvent.ACTION_MOVE:
-	            // Modify rotational angles according to movement
-	            deltaX = currentX - previousX;
-	            deltaY = currentY - previousY;
-	            renderer.angleX += deltaY * TOUCH_SCALE_FACTOR;
-	            renderer.angleY += deltaX * TOUCH_SCALE_FACTOR;
-	      }
-	      // Save current x, y
-	      previousX = currentX;
-	      previousY = currentY;
-	      return true;  // Event handled
-	   }
+		   
+		   int finger = evt.getActionIndex();
+		   int e = evt.getActionMasked();
+		   
+	   		if(e == MotionEvent.ACTION_DOWN || e == MotionEvent.ACTION_POINTER_DOWN){
+			   nbFingers++;
+   			}else if(e == MotionEvent.ACTION_UP || e == MotionEvent.ACTION_POINTER_UP){
+			   nbFingers--;
+   			}
+		   
+		   float currentX = evt.getX();
+		   float currentY = evt.getY();
 	
+		   if(finger == 0 && nbFingers == 1){
+			   float deltaX, deltaY;
+			   switch (e) {	
+		         	case MotionEvent.ACTION_MOVE:
+		         		// Modify rotational angles according to movement
+		         		deltaX = currentX - oneFingerPreviousX;
+		         		deltaY = currentY - oneFingerPreviousY;
+		         		renderer.angleX += deltaY * TOUCH_SCALE_FACTOR;
+		         		renderer.angleY += deltaX * TOUCH_SCALE_FACTOR;
+		         		break;
+			   }
+			   // Save current x, y
+			   oneFingerPreviousX = currentX;
+			   oneFingerPreviousY = currentY;   			   
+		   }else if(nbFingers == 2){
+			   switch(finger){
+			   		case 0:
+			   			if(e == MotionEvent.ACTION_MOVE){
+			   				float distance = distanceBetween2Poitns(currentX, 
+			   						currentY, second2FingersPreviousX, second2FingersPreviousY);
+			   				float diff = distance - currentDistance;
+			   				currentDistance = distance;
+			   				renderer.z += diff * TOUCH_SCALE_FACTOR;
+			   			}
+			   			first2FingersPreviousX = currentX;
+			   			first2FingersPreviousY = currentY;
+			   			break;
+			   		case 1:
+			   			if(e == MotionEvent.ACTION_MOVE){
+			   				float distance = distanceBetween2Poitns(currentX, 
+			   						currentY, first2FingersPreviousX, first2FingersPreviousY);
+			   				float diff = distance - currentDistance;
+			   				currentDistance = distance;
+			   				renderer.z += diff * TOUCH_SCALE_FACTOR;
+			   			}
+			   			second2FingersPreviousX = currentX;
+			   			second2FingersPreviousY = currentY;
+			   			break;	
+			   }
+		   }
+		   return true; 
+	   }	
+	   
+	   private float distanceBetween2Poitns(float xa, float ya, float xb, float yb){
+		   return (float)Math.sqrt((xb-xa)*(xb-xa)+(yb-ya)*(yb-ya));
+	   }
 }
